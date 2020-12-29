@@ -34,7 +34,7 @@ public class Item {
     }
 
     enum Status {
-        UnFinish, Done;
+        UnFinish, Done
     }
 
     @Override

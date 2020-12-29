@@ -13,7 +13,7 @@ public class Console {
     }
 
     public void println(String patten, Object... args) {
-        out.println(String.format(patten, args));
+        out.printf(patten + "%n", args);
     }
 
     void printItems(List<Item> items) {
