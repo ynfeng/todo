@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo;
 
-public class ListFinishedItemsCommand implements Command {
+public class ListItemsCommand implements Command {
     @Override
     public void execute(String[] args, Console console, ItemRepository itemRepository) {
         if (hasAllFlag(args)) {

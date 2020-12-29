@@ -10,7 +10,7 @@ public class CommandFactory {
             case "add":
                 return new AddItemCommand();
             case "list":
-                return new ListFinishedItemsCommand();
+                return new ListItemsCommand();
             case "done":
                 return new MarkItemDoneCommand();
             default:
