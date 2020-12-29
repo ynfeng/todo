@@ -36,4 +36,17 @@ public class TodoTest {
 
         assertThat(out.toString(), is("Item 1 done\n"));
     }
+
+    @Test
+    public void should_list_unfinished_todo_item() {
+        app.run("add", "foo");
+        app.run("add", "bar");
+        app.run("add", "baz");
+        out.reset();
+        app.run("done","1");
+        out.reset();
+
+        app.run("list");
+        assertThat(out.toString(), is("1. bar\n2. baz\n"));
+    }
 }

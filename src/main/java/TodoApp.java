@@ -21,7 +21,12 @@ public class TodoApp {
             console.println("Item %s added", item);
         } else if ("done".equals(cmd)) {
             int itemIdx = Integer.valueOf(args[1]);
+            items.remove(itemIdx - 1);
             console.println("Item %d done", itemIdx);
+        } else if ("list".equals(cmd)) {
+            for (int i = 0; i < items.size(); i++) {
+                console.println("%d. %s", i + 1, items.get(i));
+            }
         }
     }
 }
