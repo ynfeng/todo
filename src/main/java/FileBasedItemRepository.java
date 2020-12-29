@@ -2,12 +2,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileItemRepository implements ItemRepository {
+public class FileBasedItemRepository implements ItemRepository {
     private final List<Item> items;
 
     private final FileItemStorage storage;
 
-    public FileItemRepository(String dataDir) {
+    public FileBasedItemRepository(String dataDir) {
         storage = new FileItemStorage(dataDir);
         items = storage.loadDataFromFile();
     }

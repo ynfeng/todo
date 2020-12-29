@@ -3,7 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MemoryItemRepository implements ItemRepository {
+public class MemoryBasedItemRepository implements ItemRepository {
     public final List<Item> items = new ArrayList<>();
 
     @Override
