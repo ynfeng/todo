@@ -1,6 +1,11 @@
+package com.github.ynfeng.todo;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.github.ynfeng.todo.FileBasedItemRepository;
+import com.github.ynfeng.todo.Item;
+import com.github.ynfeng.todo.ItemRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;

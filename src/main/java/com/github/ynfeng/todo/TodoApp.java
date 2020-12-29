@@ -1,3 +1,5 @@
+package com.github.ynfeng.todo;
+
 import java.io.PrintStream;
 
 public class TodoApp {
@@ -12,5 +14,4 @@ public class TodoApp {
         String cmd = args[0];
         CommandFactory.createCommand(cmd).execute(args, console, itemRepository);
     }
-
 }

@@ -1,3 +1,5 @@
+package com.github.ynfeng.todo;
+
 public class ListFinishedItemsCommand implements Command {
     @Override
     public void execute(String[] args, Console console, ItemRepository itemRepository) {

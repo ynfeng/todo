@@ -1,3 +1,5 @@
+package com.github.ynfeng.todo;
+
 public class AddItemCommand implements Command {
 
     @Override

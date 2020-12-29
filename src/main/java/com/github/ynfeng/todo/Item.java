@@ -1,3 +1,5 @@
+package com.github.ynfeng.todo;
+
 public class Item {
     private final String name;
     private Status status;
