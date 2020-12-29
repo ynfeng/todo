@@ -20,4 +20,10 @@ public class Console {
         IntStream.range(1, items.size() + 1)
             .forEach(index -> println(items.get(index - 1).toString(index)));
     }
+
+    public void printSummary(List<Item> allItems) {
+        int total = allItems.size();
+        int numOfFinished = (int) allItems.stream().filter(Item::isDone).count();
+        println("Total %d items, %d item done", total, numOfFinished);
+    }
 }

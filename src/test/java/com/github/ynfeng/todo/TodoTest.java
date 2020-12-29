@@ -41,8 +41,8 @@ public class TodoTest {
         app.run("add", "foo");
 
         out.reset();
-        app.run("done", "1");
 
+        app.run("done", "1");
         assertThat(out.toString(), is("Item 1 done\n"));
     }
 
@@ -67,7 +67,7 @@ public class TodoTest {
         out.reset();
 
         app.run("list", "--all");
-        assertThat(out.toString(), is("1. [Done] foo\n2. bar\n3. baz\n"));
+        assertThat(out.toString(), is("1. [Done] foo\n2. bar\n3. baz\nTotal 3 items, 1 item done\n"));
     }
 
     @Test

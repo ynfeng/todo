@@ -5,6 +5,7 @@ public class ListItemsCommand implements Command {
     public void execute(String[] args, Console console, ItemRepository itemRepository) {
         if (hasAllFlag(args)) {
             console.printItems(itemRepository.listAll());
+            console.printSummary(itemRepository.listAll());
         } else {
             console.printItems(itemRepository.listUnFinishedItem());
         }
