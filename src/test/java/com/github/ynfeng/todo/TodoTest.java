@@ -71,7 +71,7 @@ public class TodoTest {
     }
 
     @Test
-    public void should_mark_item_finished_with_different_processes() {
+    public void should_mark_item_done_with_different_processes() {
         String dataDir = UUID.randomUUID().toString();
         TodoApp app = newApp(dataDir);
         app.run("add", "中文测试");
