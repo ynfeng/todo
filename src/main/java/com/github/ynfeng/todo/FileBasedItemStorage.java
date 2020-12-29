@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +48,8 @@ public class FileBasedItemStorage {
 
     public void appendItem(Item item) {
         try {
-            raf.writeBytes(gson.toJson(item) + "\r\n");
+            raf.seek(raf.length());
+            raf.write((gson.toJson(item) + "\r\n").getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -66,7 +68,7 @@ public class FileBasedItemStorage {
         File tempFile = new File(dataFile.getParent() + "/tmp.json");
         RandomAccessFile raf = new RandomAccessFile(tempFile, "rw");
         for (Item eachItem : items) {
-            raf.writeBytes(gson.toJson(eachItem) + "\r\n");
+            raf.write((gson.toJson(eachItem) + "\r\n").getBytes(StandardCharsets.UTF_8));
         }
         raf.close();
         return tempFile;

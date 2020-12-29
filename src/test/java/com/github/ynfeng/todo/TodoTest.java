@@ -69,4 +69,30 @@ public class TodoTest {
         app.run("list", "--all");
         assertThat(out.toString(), is("1. [Done] foo\n2. bar\n3. baz\n"));
     }
+
+    @Test
+    public void should_mark_item_finished_with_different_processes() {
+        String dataDir = UUID.randomUUID().toString();
+        TodoApp app = newApp(dataDir);
+        app.run("add", "中文测试");
+        app = newApp(dataDir);
+        app.run("add", "foo");
+        app = newApp(dataDir);
+        app.run("done", "1");
+        out.reset();
+
+        app = newApp(dataDir);
+        app.run("list");
+        assertThat(out.toString(), is("1. foo\n"));
+    }
+
+    private TodoApp newApp(String dataDir) {
+        return new TodoApp(new AppConfig() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public <T> T getConfig(String key) {
+                return (T) ("/tmp/todo/test/" + dataDir + '/');
+            }
+        }, new PrintStream(out));
+    }
 }

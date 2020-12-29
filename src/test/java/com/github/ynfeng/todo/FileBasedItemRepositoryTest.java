@@ -76,4 +76,17 @@ class FileBasedItemRepositoryTest {
 
         assertThat(foo.isDone(), is(true));
     }
+
+    @Test
+    public void item_name_can_contains_chinese() {
+        ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
+        itemRepository.add(Item.newItem("中文测试"));
+        itemRepository.add(Item.newItem("foo"));
+        itemRepository.add(Item.newItem("bar"));
+        ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
+        Item chineseItem = newItemRepository.getByIndex(0);
+        Item foo = newItemRepository.getByIndex(1);
+
+        assertThat(chineseItem.name(), is("中文测试"));
+    }
 }
