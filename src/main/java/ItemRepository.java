@@ -6,4 +6,6 @@ public interface ItemRepository {
     Item getByIndex(int index);
 
     List<Item> listUnFinishedItem();
+
+    List<Item> listAll();
 }

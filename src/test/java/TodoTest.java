@@ -42,11 +42,22 @@ public class TodoTest {
         app.run("add", "foo");
         app.run("add", "bar");
         app.run("add", "baz");
-        out.reset();
         app.run("done", "1");
         out.reset();
 
         app.run("list");
         assertThat(out.toString(), is("1. bar\n2. baz\n"));
+    }
+
+    @Test
+    public void should_list_all_items() {
+        app.run("add", "foo");
+        app.run("add", "bar");
+        app.run("add", "baz");
+        app.run("done", "1");
+        out.reset();
+
+        app.run("list", "--all");
+        assertThat(out.toString(), is("1. [Done] foo\n2. bar\n3. baz\n"));
     }
 }

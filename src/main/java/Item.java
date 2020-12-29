@@ -23,6 +23,13 @@ public class Item {
         return status == Status.Done;
     }
 
+    public String toString(int index) {
+        if (isDone()) {
+            return String.format("%d. [Done] %s", index, name);
+        }
+        return String.format("%d. %s", index, name);
+    }
+
     enum Status {
         UnFinish, Done;
     }

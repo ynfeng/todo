@@ -16,6 +16,6 @@ public class Console {
 
     void printItems(List<Item> items) {
         IntStream.range(1, items.size() + 1)
-            .forEach(index -> println("%d. %s", index, items.get(index - 1).name()));
+            .forEach(index -> println(items.get(index - 1).toString(index)));
     }
 }

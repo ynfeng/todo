@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,11 @@ public class MemoryItemRepository implements ItemRepository {
     @Override
     public List<Item> listUnFinishedItem() {
         return items.stream().filter(item -> !item.isDone()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Item> listAll() {
+        return Collections.unmodifiableList(items);
     }
 
 }

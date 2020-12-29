@@ -8,7 +8,7 @@ public class CommandFactory {
             case "add":
                 return new AddItemCommand();
             case "list":
-                return new ListUnFinishedItemsCommand();
+                return new ListFinishedItemsCommand();
             case "done":
                 return new MarkItemDoneCommand();
             default:
