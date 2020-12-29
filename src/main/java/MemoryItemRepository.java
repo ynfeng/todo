@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MemoryItemRepository implements ItemRepository {
+    public final List<Item> items = new ArrayList<>();
+
+    @Override
+    public void add(Item item) {
+        items.add(item);
+    }
+
+    @Override
+    public Item getByIndex(int index) {
+        return items.get(index);
+    }
+
+    @Override
+    public List<Item> findUnFinishedItems() {
+        return items.stream().filter(item -> !item.isDone()).collect(Collectors.toList());
+    }
+
+}
