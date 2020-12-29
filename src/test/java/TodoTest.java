@@ -3,15 +3,21 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TodoTest {
+    private TodoApp app;
+    private ByteArrayOutputStream out;
+
+    @BeforeEach
+    public void setup() {
+        out = new ByteArrayOutputStream();
+        app = new TodoApp(new PrintStream(out));
+    }
 
     @Test
     public void should_add_item_and_output_tips() {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        TodoApp app = new TodoApp(new PrintStream(out));
-
         app.run("add", "foo");
         assertThat(out.toString(), is("1. foo\nItem foo added\n"));
 
@@ -21,4 +27,13 @@ public class TodoTest {
         assertThat(out.toString(), is("1. foo\n2. bar\nItem bar added\n"));
     }
 
+    @Test
+    public void should_mark_todo_item_done_and_output_tips() {
+        app.run("add", "foo");
+
+        out.reset();
+        app.run("done", "1");
+
+        assertThat(out.toString(), is("Item 1 done\n"));
+    }
 }
