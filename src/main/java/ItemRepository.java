@@ -5,5 +5,5 @@ public interface ItemRepository {
 
     Item getByIndex(int index);
 
-    List<Item> findUnFinishedItems();
+    List<Item> listUnFinishedItem();
 }

@@ -16,7 +16,7 @@ public class MemoryItemRepository implements ItemRepository {
     }
 
     @Override
-    public List<Item> findUnFinishedItems() {
+    public List<Item> listUnFinishedItem() {
         return items.stream().filter(item -> !item.isDone()).collect(Collectors.toList());
     }
 
