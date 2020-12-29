@@ -3,9 +3,9 @@ package com.github.ynfeng.todo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.github.ynfeng.todo.TodoApp;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,13 @@ public class TodoTest {
     @BeforeEach
     public void setup() {
         out = new ByteArrayOutputStream();
-        app = new TodoApp(new PrintStream(out));
+        app = new TodoApp(new AppConfig() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public <T> T getConfig(String key) {
+                return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
+            }
+        }, new PrintStream(out));
     }
 
     @Test

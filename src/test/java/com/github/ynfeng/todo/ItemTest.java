@@ -3,7 +3,6 @@ package com.github.ynfeng.todo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.github.ynfeng.todo.Item;
 import org.junit.jupiter.api.Test;
 
 class ItemTest {
