@@ -43,7 +43,7 @@ public class TodoTest {
         app.run("add", "bar");
         app.run("add", "baz");
         out.reset();
-        app.run("done","1");
+        app.run("done", "1");
         out.reset();
 
         app.run("list");

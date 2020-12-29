@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TodoApp {
     private final Console console;
-    public final List<String> items = new ArrayList<>();
+    public final List<Item> itemsList = new ArrayList<>();
 
     public TodoApp(PrintStream out) {
         console = new Console(out);
@@ -13,19 +13,26 @@ public class TodoApp {
     public void run(String... args) {
         String cmd = args[0];
         if ("add".equals(cmd)) {
-            String item = args[1];
-            items.add(item);
-            for (int i = 0; i < items.size(); i++) {
-                console.println("%d. %s", i + 1, items.get(i));
-            }
-            console.println("Item %s added", item);
+            Item item = Item.newItem(args[1]);
+            itemsList.add(item);
+            printUnFinishedItems();
+            console.println("Item %s added", item.name());
         } else if ("done".equals(cmd)) {
             int itemIdx = Integer.valueOf(args[1]);
-            items.remove(itemIdx - 1);
+            Item item = itemsList.get(itemIdx - 1);
+            item.done();
             console.println("Item %d done", itemIdx);
         } else if ("list".equals(cmd)) {
-            for (int i = 0; i < items.size(); i++) {
-                console.println("%d. %s", i + 1, items.get(i));
+            printUnFinishedItems();
+        }
+    }
+
+    private void printUnFinishedItems() {
+        int id = 1;
+        for (int i = 0; i < itemsList.size(); i++) {
+            Item item = itemsList.get(i);
+            if (!item.isDone()) {
+                console.println("%d. %s", id++, item.name());
             }
         }
     }
