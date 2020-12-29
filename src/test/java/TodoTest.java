@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 public class TodoTest {
 
     @Test
-    public void should_add_todo_item() {
+    public void should_output_tips() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         TodoApp app = new TodoApp(new PrintStream(out));
 
