@@ -26,4 +26,9 @@ public class MemoryItemRepository implements ItemRepository {
         return Collections.unmodifiableList(items);
     }
 
+    @Override
+    public void update(Item item) {
+
+    }
+
 }

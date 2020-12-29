@@ -8,4 +8,6 @@ public interface ItemRepository {
     List<Item> listUnFinishedItem();
 
     List<Item> listAll();
+
+    void update(Item item);
 }
