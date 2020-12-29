@@ -6,12 +6,12 @@ import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileItemStorage {
+public class FileBasedItemStorage {
     private final File dataFile;
     private final Gson gson = new Gson();
     private final RandomAccessFile raf;
 
-    public FileItemStorage(String dataDir) {
+    public FileBasedItemStorage(String dataDir) {
         ensureDirExists(dataDir);
         dataFile = new File(dataDir + "todo.json");
         raf = createDataFileWriter();

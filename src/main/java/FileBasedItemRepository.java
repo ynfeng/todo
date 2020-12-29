@@ -5,10 +5,10 @@ import java.util.stream.Collectors;
 public class FileBasedItemRepository implements ItemRepository {
     private final List<Item> items;
 
-    private final FileItemStorage storage;
+    private final FileBasedItemStorage storage;
 
     public FileBasedItemRepository(String dataDir) {
-        storage = new FileItemStorage(dataDir);
+        storage = new FileBasedItemStorage(dataDir);
         items = storage.loadDataFromFile();
     }
 

@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FileItemRepositoryTest {
+class FileBasedItemRepositoryTest {
     private String dataDir;
 
     @BeforeEach
@@ -17,11 +17,11 @@ class FileItemRepositoryTest {
 
     @Test
     public void should_save_todo_item_to_file() {
-        ItemRepository itemRepository = new FileItemRepository(dataDir);
+        ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
         itemRepository.add(Item.newItem("foo"));
         itemRepository.add(Item.newItem("bar"));
 
-        ItemRepository newItemRepository = new FileItemRepository(dataDir);
+        ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
         Item foo = newItemRepository.getByIndex(0);
         Item bar = newItemRepository.getByIndex(1);
@@ -34,11 +34,11 @@ class FileItemRepositoryTest {
 
     @Test
     public void should_list_all_todo_items() {
-        ItemRepository itemRepository = new FileItemRepository(dataDir);
+        ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
         itemRepository.add(Item.newItem("foo"));
         itemRepository.add(Item.newItem("bar"));
 
-        ItemRepository newItemRepository = new FileItemRepository(dataDir);
+        ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
 
         List<Item> all = newItemRepository.listAll();
@@ -48,11 +48,11 @@ class FileItemRepositoryTest {
 
     @Test
     public void should_list_unfinished_todo_items() {
-        ItemRepository itemRepository = new FileItemRepository(dataDir);
+        ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
         itemRepository.add(Item.newItem("foo").done());
         itemRepository.add(Item.newItem("bar"));
 
-        ItemRepository newItemRepository = new FileItemRepository(dataDir);
+        ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
 
         List<Item> all = newItemRepository.listUnFinishedItem();
@@ -62,13 +62,13 @@ class FileItemRepositoryTest {
 
     @Test
     public void should_update_todo_item() {
-        ItemRepository itemRepository = new FileItemRepository(dataDir);
+        ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
         itemRepository.add(Item.newItem("foo"));
         Item foo = itemRepository.getByIndex(0);
         foo.done();
         itemRepository.update(foo);
 
-        ItemRepository newItemRepository = new FileItemRepository(dataDir);
+        ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
         foo = newItemRepository.getByIndex(0);
 

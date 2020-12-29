@@ -2,7 +2,7 @@ import java.io.PrintStream;
 
 public class TodoApp {
     private final Console console;
-    public final ItemRepository itemRepository = new MemoryItemRepository();
+    public final ItemRepository itemRepository = new MemoryBasedItemRepository();
 
     public TodoApp(PrintStream out) {
         console = new Console(out);
