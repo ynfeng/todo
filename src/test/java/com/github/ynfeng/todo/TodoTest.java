@@ -19,7 +19,7 @@ public class TodoTest {
         app = new TodoApp(new AppConfig() {
             @SuppressWarnings("unchecked")
             @Override
-            public <T> T getConfig(String key) {
+            public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
             }
         }, new PrintStream(out));
@@ -90,7 +90,7 @@ public class TodoTest {
         return new TodoApp(new AppConfig() {
             @SuppressWarnings("unchecked")
             @Override
-            public <T> T getConfig(String key) {
+            public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/test/" + dataDir + '/');
             }
         }, new PrintStream(out));
