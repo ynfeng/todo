@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 public class TodoAppTest {
     private TodoApp app;
     private ByteArrayOutputStream out;
-    private ApplicationContext context;
 
     @BeforeEach
     public void setup() {
@@ -29,7 +28,7 @@ public class TodoAppTest {
                 return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
             }
         };
-        context = new ApplicationContext(config);
+        new ApplicationContext(config);
         app = new TodoApp();
     }
 
