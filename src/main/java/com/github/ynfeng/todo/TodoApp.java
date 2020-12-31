@@ -13,8 +13,8 @@ public class TodoApp {
         itemRepository = new FileBasedItemRepository(config.getConfigOrDefault("dataDir", baseDir + "/.todo/"));
     }
 
-    public void run(String... args) {
-        String cmd = args[0];
+    public void run(Args a, String... args) {
+        String cmd = a.cmd();
         CommandFactory.createCommand(cmd).execute(args, itemRepository);
     }
 }
