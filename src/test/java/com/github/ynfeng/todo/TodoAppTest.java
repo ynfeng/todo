@@ -12,7 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TodoTest {
+public class TodoAppTest {
     private TodoApp app;
     private ByteArrayOutputStream out;
 
@@ -88,6 +88,22 @@ public class TodoTest {
         app = newApp(dataDir);
         app.run(Args.of("list"));
         assertThat(out.toString(), is("1. foo\n"));
+    }
+
+    @Test
+    public void should_login_with_password() {
+        Console.passwordReader(() -> "12345");
+        app.run(Args.of("login", "-u", "user"));
+
+        assertThat(out.toString(), is("Password:\nLogin success!\n"));
+    }
+
+    @Test
+    public void should_login_failed_when_password_incorrect() {
+        Console.passwordReader(() -> "123");
+        app.run(Args.of("login", "-u", "user"));
+
+        assertThat(out.toString(), is("Password:\nLogin falied!\n"));
     }
 
     private static TodoApp newApp(String dataDir) {
