@@ -1,7 +1,10 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.command;
 
 import static com.github.ynfeng.todo.Console.printItems;
 import static com.github.ynfeng.todo.Console.println;
+
+import com.github.ynfeng.todo.Item;
+import com.github.ynfeng.todo.persistence.ItemRepository;
 
 public class AddItemCommand implements Command {
 

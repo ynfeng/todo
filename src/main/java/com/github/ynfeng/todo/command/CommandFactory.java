@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.command;
 
 public class CommandFactory {
     private CommandFactory() {

@@ -1,6 +1,9 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.command;
 
 import static com.github.ynfeng.todo.Console.println;
+
+import com.github.ynfeng.todo.Item;
+import com.github.ynfeng.todo.persistence.ItemRepository;
 
 public class MarkItemDoneCommand implements Command {
     @Override

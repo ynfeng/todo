@@ -1,5 +1,6 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.persistence;
 
+import com.github.ynfeng.todo.Item;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;

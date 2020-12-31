@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.config;
 
 public class DefaultConfig implements AppConfig {
     @Override

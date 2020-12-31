@@ -1,5 +1,6 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.persistence;
 
+import com.github.ynfeng.todo.Item;
 import java.util.List;
 
 public interface ItemRepository {
