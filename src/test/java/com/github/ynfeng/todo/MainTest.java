@@ -33,6 +33,13 @@ class MainTest {
         assertThat(out.toString(), is("unsupported command.\n"));
     }
 
+    @Test
+    public void should_output_tips_when_not_given_args() {
+        Main.main(new String[] {});
+
+        assertThat(out.toString(), is("command not found.\n"));
+    }
+
     @AfterEach
     public void tearDown() throws IOException {
         out.close();
