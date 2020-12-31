@@ -9,7 +9,7 @@ import com.github.ynfeng.todo.persistence.ItemRepository;
 public class MarkItemDoneCommand implements Command {
     @Override
     public void execute(Args args, ItemRepository itemRepository) {
-        int itemIdx = Integer.parseInt(args.get(1));
+        int itemIdx = Integer.parseInt(args.getByIndex(1));
         Item item = itemRepository.getByIndex(itemIdx - 1);
         item.done();
         itemRepository.update(item);

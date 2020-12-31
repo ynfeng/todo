@@ -11,7 +11,7 @@ public class AddItemCommand implements Command {
 
     @Override
     public void execute(Args args, ItemRepository itemRepository) {
-        Item item = Item.newItem(args.get(1));
+        Item item = Item.newItem(args.getByIndex(1));
         itemRepository.add(item);
         printItems(itemRepository.listUnFinishedItem());
         println("Item %s added", item.name());

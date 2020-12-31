@@ -20,7 +20,7 @@ public class Args {
         return args[0];
     }
 
-    public String get(int index) {
+    public String getByIndex(int index) {
         return args[index];
     }
 
