@@ -8,7 +8,8 @@ public class TodoApp {
 
     public TodoApp(AppConfig config, PrintStream out) {
         console = new Console(out);
-        itemRepository = new FileBasedItemRepository(config.getConfigOrDefault("dataDir", "~/.todo/data/"));
+        String baseDir = System.getProperty("user.home");
+        itemRepository = new FileBasedItemRepository(config.getConfigOrDefault("dataDir", baseDir + "/.todo/"));
     }
 
     public void run(String... args) {
