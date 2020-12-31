@@ -6,7 +6,6 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,13 +69,19 @@ public class FileBasedItemStorage {
         }
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     private File writeItemsToTempFile(List<Item> items) throws IOException {
+        File tempFile = createTempFile();
+        Files.asCharSink(tempFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
+            .writeLines(items.stream().map(each -> gson.toJson(each)));
+        return tempFile;
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private File createTempFile() throws IOException {
         File tempFile = new File(dataFile.getParent() + "/tmp.json");
-        RandomAccessFile raf = new RandomAccessFile(tempFile, "rw");
-        for (Item eachItem : items) {
-            raf.write((gson.toJson(eachItem) + "\r\n").getBytes(StandardCharsets.UTF_8));
-        }
-        raf.close();
+        tempFile.delete();
+        tempFile.createNewFile();
         return tempFile;
     }
 
