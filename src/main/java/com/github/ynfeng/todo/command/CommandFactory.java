@@ -1,5 +1,7 @@
 package com.github.ynfeng.todo.command;
 
+import com.github.ynfeng.todo.TodoApplicationException;
+
 public final class CommandFactory {
     private CommandFactory() {
 
@@ -14,7 +16,7 @@ public final class CommandFactory {
             case "done":
                 return new MarkItemDoneCommand();
             default:
-                throw new IllegalArgumentException("unsupported command.");
+                throw new TodoApplicationException("unsupported command.");
         }
     }
 }

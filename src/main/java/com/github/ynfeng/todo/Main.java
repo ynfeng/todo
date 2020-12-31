@@ -10,7 +10,7 @@ public final class Main {
         TodoApp app = new TodoApp(new DefaultConfig());
         try {
             app.run(Args.of(args));
-        } catch (Exception exception) {
+        } catch (TodoApplicationException exception) {
             println(exception.getMessage());
         }
     }

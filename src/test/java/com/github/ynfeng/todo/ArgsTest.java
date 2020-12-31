@@ -17,7 +17,7 @@ class ArgsTest {
             args.cmd();
             fail();
         } catch (Exception exception) {
-            assertThat(exception, instanceOf(IllegalArgumentException.class));
+            assertThat(exception, instanceOf(TodoApplicationException.class));
             assertThat(exception.getMessage(), is("command not found."));
         }
     }

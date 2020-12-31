@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.github.ynfeng.todo.TodoApplicationException;
 import org.junit.jupiter.api.Test;
 
 class CommandFactoryTest {
@@ -13,7 +14,7 @@ class CommandFactoryTest {
         try {
             CommandFactory.createCommand("unsupported");
         } catch (Exception exception) {
-            assertThat(exception, instanceOf(IllegalArgumentException.class));
+            assertThat(exception, instanceOf(TodoApplicationException.class));
             assertThat(exception.getMessage(), is("unsupported command."));
         }
     }
