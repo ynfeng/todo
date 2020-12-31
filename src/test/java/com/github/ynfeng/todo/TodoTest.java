@@ -24,7 +24,7 @@ public class TodoTest {
             public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
             }
-        }, new PrintStream(out));
+        });
     }
 
     @Test
@@ -95,6 +95,6 @@ public class TodoTest {
             public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/test/" + dataDir + '/');
             }
-        }, new PrintStream(out));
+        });
     }
 }

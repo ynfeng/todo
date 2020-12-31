@@ -1,12 +1,11 @@
 package com.github.ynfeng.todo;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public final class Console {
-    private static PrintStream ps;
+    private static PrintStream ps = System.out;
 
     @SuppressWarnings("unused")
     private Console() {
@@ -14,9 +13,6 @@ public final class Console {
 
     public static void out(PrintStream out) {
         ps = out;
-    }
-
-    public Console(OutputStream out) {
     }
 
     public static void println(String patten, Object... args) {

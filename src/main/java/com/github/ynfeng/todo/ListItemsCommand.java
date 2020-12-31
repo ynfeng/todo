@@ -1,13 +1,16 @@
 package com.github.ynfeng.todo;
 
+import static com.github.ynfeng.todo.Console.printItems;
+import static com.github.ynfeng.todo.Console.printSummary;
+
 public class ListItemsCommand implements Command {
     @Override
-    public void execute(String[] args, Console console, ItemRepository itemRepository) {
+    public void execute(String[] args, ItemRepository itemRepository) {
         if (hasAllFlag(args)) {
-            Console.printItems(itemRepository.listAll());
-            Console.printSummary(itemRepository.listAll());
+            printItems(itemRepository.listAll());
+            printSummary(itemRepository.listAll());
         } else {
-            Console.printItems(itemRepository.listUnFinishedItem());
+            printItems(itemRepository.listUnFinishedItem());
         }
     }
 

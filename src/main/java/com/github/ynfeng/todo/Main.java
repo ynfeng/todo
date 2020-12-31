@@ -7,7 +7,7 @@ public final class Main {
             System.out.println("Invalid parameters.");
             return;
         }
-        TodoApp app = new TodoApp(new DefaultConfig(), System.out);
+        TodoApp app = new TodoApp(new DefaultConfig());
         app.run(args);
     }
 }
