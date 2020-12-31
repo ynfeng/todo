@@ -15,6 +15,6 @@ public class TodoApp {
 
     public void run(Args a, String... args) {
         String cmd = a.cmd();
-        CommandFactory.createCommand(cmd).execute(args, itemRepository);
+        CommandFactory.createCommand(cmd).execute(a, args, itemRepository);
     }
 }
