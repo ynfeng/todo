@@ -6,7 +6,7 @@ public class AddItemCommand implements Command {
     public void execute(String[] args, Console console, ItemRepository itemRepository) {
         Item item = Item.newItem(args[1]);
         itemRepository.add(item);
-        console.printItems(itemRepository.listUnFinishedItem());
-        console.println("Item %s added", item.name());
+        Console.printItems(itemRepository.listUnFinishedItem());
+        Console.println("Item %s added", item.name());
     }
 }

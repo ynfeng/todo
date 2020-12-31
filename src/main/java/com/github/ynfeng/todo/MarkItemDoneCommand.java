@@ -7,6 +7,6 @@ public class MarkItemDoneCommand implements Command {
         Item item = itemRepository.getByIndex(itemIdx - 1);
         item.done();
         itemRepository.update(item);
-        console.println("Item %d done", itemIdx);
+        Console.println("Item %d done", itemIdx);
     }
 }

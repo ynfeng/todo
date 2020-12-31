@@ -4,10 +4,10 @@ public class ListItemsCommand implements Command {
     @Override
     public void execute(String[] args, Console console, ItemRepository itemRepository) {
         if (hasAllFlag(args)) {
-            console.printItems(itemRepository.listAll());
-            console.printSummary(itemRepository.listAll());
+            Console.printItems(itemRepository.listAll());
+            Console.printSummary(itemRepository.listAll());
         } else {
-            console.printItems(itemRepository.listUnFinishedItem());
+            Console.printItems(itemRepository.listUnFinishedItem());
         }
     }
 

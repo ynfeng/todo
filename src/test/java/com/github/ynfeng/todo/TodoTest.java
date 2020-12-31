@@ -16,6 +16,8 @@ public class TodoTest {
     @BeforeEach
     public void setup() {
         out = new ByteArrayOutputStream();
+        out.reset();
+        Console.out(new PrintStream(out));
         app = new TodoApp(new AppConfig() {
             @SuppressWarnings("unchecked")
             @Override
