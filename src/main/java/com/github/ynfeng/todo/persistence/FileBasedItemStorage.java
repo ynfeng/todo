@@ -1,24 +1,24 @@
 package com.github.ynfeng.todo.persistence;
 
 import com.github.ynfeng.todo.Item;
+import com.google.common.io.FileWriteMode;
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileBasedItemStorage {
     private final File dataFile;
     private final Gson gson = new Gson();
-    private final RandomAccessFile raf;
 
     public FileBasedItemStorage(String dataDir) {
         ensureDirExists(dataDir);
         dataFile = new File(dataDir + "todo.json");
-        raf = createDataFileWriter();
+        ensureFileExists(dataFile);
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -29,17 +29,22 @@ public class FileBasedItemStorage {
         }
     }
 
-    private RandomAccessFile createDataFileWriter() {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void ensureFileExists(File dataFile) {
         try {
-            return new RandomAccessFile(dataFile, "rw");
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public List<Item> loadDataFromFile() {
         try {
-            return Files.readAllLines(dataFile.toPath()).stream()
+            return Files.readLines(dataFile, StandardCharsets.UTF_8)
+                .stream()
                 .map(line -> gson.fromJson(line, Item.class))
                 .collect(Collectors.toList());
         } catch (IOException e) {
@@ -49,8 +54,8 @@ public class FileBasedItemStorage {
 
     public void appendItem(Item item) {
         try {
-            raf.seek(raf.length());
-            raf.write((gson.toJson(item) + "\r\n").getBytes(StandardCharsets.UTF_8));
+            Files.asCharSink(dataFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
+                .write(gson.toJson(item) + "\r\n");
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -76,7 +81,7 @@ public class FileBasedItemStorage {
     }
 
     private void replaceOldDataFile(File tempFile) throws IOException {
-        Files.delete(dataFile.toPath());
-        Files.move(tempFile.toPath(), dataFile.toPath());
+        java.nio.file.Files.delete(dataFile.toPath());
+        java.nio.file.Files.move(tempFile.toPath(), dataFile.toPath());
     }
 }
