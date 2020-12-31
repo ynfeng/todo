@@ -3,6 +3,7 @@ package com.github.ynfeng.todo.command;
 import static com.github.ynfeng.todo.Console.printItems;
 import static com.github.ynfeng.todo.Console.println;
 
+import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.Item;
 import com.github.ynfeng.todo.persistence.ItemRepository;
@@ -10,7 +11,8 @@ import com.github.ynfeng.todo.persistence.ItemRepository;
 public class AddItemCommand implements Command {
 
     @Override
-    public void execute(Args args, ItemRepository itemRepository) {
+    public void execute(Args args) {
+        ItemRepository itemRepository = ApplicationContext.itemRepository();
         Item item = Item.newItem(args.getByIndex(1));
         itemRepository.add(item);
         printItems(itemRepository.listUnFinishedItem());

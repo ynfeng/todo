@@ -15,18 +15,22 @@ import org.junit.jupiter.api.Test;
 public class TodoAppTest {
     private TodoApp app;
     private ByteArrayOutputStream out;
+    private ApplicationContext context;
 
     @BeforeEach
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
-        app = new TodoApp(new AppConfig() {
+
+        AppConfig config = new AppConfig() {
             @SuppressWarnings("unchecked")
             @Override
             public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
             }
-        });
+        };
+        context = new ApplicationContext(config);
+        app = new TodoApp();
     }
 
     @Test
@@ -77,15 +81,15 @@ public class TodoAppTest {
     @Test
     public void should_mark_item_done_with_different_processes() {
         String dataDir = UUID.randomUUID().toString();
-        TodoApp app = newApp(dataDir);
+        newContext(dataDir);
         app.run(Args.of("add", "中文测试"));
-        app = newApp(dataDir);
+        newContext(dataDir);
         app.run(Args.of("add", "foo"));
-        app = newApp(dataDir);
+        newContext(dataDir);
         app.run(Args.of("done", "1"));
         out.reset();
 
-        app = newApp(dataDir);
+        newContext(dataDir);
         app.run(Args.of("list"));
         assertThat(out.toString(), is("1. foo\n"));
     }
@@ -106,14 +110,15 @@ public class TodoAppTest {
         assertThat(out.toString(), is("Password:\nLogin falied!\n"));
     }
 
-    private static TodoApp newApp(String dataDir) {
-        return new TodoApp(new AppConfig() {
+    private static void newContext(String dataDir) {
+        AppConfig config = new AppConfig() {
             @SuppressWarnings("unchecked")
             @Override
             public <T> T getConfigOrDefault(String key, T defaultValue) {
                 return (T) ("/tmp/todo/test/" + dataDir + '/');
             }
-        });
+        };
+        new ApplicationContext(config);
     }
 
     @AfterEach

@@ -7,7 +7,8 @@ import com.github.ynfeng.todo.config.DefaultConfig;
 public final class Main {
 
     public static void main(String[] args) {
-        TodoApp app = new TodoApp(new DefaultConfig());
+        new ApplicationContext(new DefaultConfig());
+        TodoApp app = new TodoApp();
         try {
             app.run(Args.of(args));
         } catch (TodoApplicationException exception) {
