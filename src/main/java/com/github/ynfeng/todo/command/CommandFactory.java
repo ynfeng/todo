@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo.command;
 
-public class CommandFactory {
+public final class CommandFactory {
     private CommandFactory() {
 
     }

@@ -5,8 +5,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.github.ynfeng.todo.config.AppConfig;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.UUID;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +19,6 @@ public class TodoTest {
     @BeforeEach
     public void setup() {
         out = new ByteArrayOutputStream();
-        out.reset();
         Console.out(new PrintStream(out));
         app = new TodoApp(new AppConfig() {
             @SuppressWarnings("unchecked")
@@ -97,5 +98,10 @@ public class TodoTest {
                 return (T) ("/tmp/todo/test/" + dataDir + '/');
             }
         });
+    }
+
+    @AfterEach
+    public void tearDown() throws IOException {
+        out.close();
     }
 }

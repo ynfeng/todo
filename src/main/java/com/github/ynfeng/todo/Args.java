@@ -14,6 +14,9 @@ public class Args {
     }
 
     public String cmd() {
+        if (args == null || args[0] == null) {
+            throw new IllegalArgumentException("command not found.");
+        }
         return args[0];
     }
 
