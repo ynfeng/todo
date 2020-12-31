@@ -8,8 +8,8 @@ import com.github.ynfeng.todo.persistence.ItemRepository;
 
 public class ListItemsCommand implements Command {
     @Override
-    public void execute(Args a, String[] args, ItemRepository itemRepository) {
-        if (a.has("--all")) {
+    public void execute(Args args, ItemRepository itemRepository) {
+        if (args.has("--all")) {
             printItems(itemRepository.listAll());
             printSummary(itemRepository.listAll());
         } else {

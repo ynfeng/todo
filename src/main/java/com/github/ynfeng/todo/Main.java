@@ -10,6 +10,6 @@ public final class Main {
             return;
         }
         TodoApp app = new TodoApp(new DefaultConfig());
-        app.run(null, args);
+        app.run(Args.of(args));
     }
 }
