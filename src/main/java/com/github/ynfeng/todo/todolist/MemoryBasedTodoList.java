@@ -15,7 +15,7 @@ public class MemoryBasedTodoList implements TodoList {
     }
 
     @Override
-    public Optional<Item> getByIndex(int index) {
+    public Optional<Item> get(int index) {
         if (index < 0 || index >= items.size()) {
             return Optional.empty();
         }
@@ -23,12 +23,12 @@ public class MemoryBasedTodoList implements TodoList {
     }
 
     @Override
-    public List<Item> listUnFinishedItem() {
+    public List<Item> unFinishedItems() {
         return items.stream().filter(item -> !item.isDone()).collect(Collectors.toList());
     }
 
     @Override
-    public List<Item> listAll() {
+    public List<Item> all() {
         return Collections.unmodifiableList(items);
     }
 

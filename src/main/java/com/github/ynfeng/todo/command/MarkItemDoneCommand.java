@@ -13,7 +13,7 @@ public class MarkItemDoneCommand implements Command {
     public void execute(Args args) {
         TodoList todoList = ApplicationContext.todoList();
         int itemIdx = Integer.parseInt(args.getByIndex(1, "Usage: done <item index>"));
-        Item item = todoList.getByIndex(itemIdx - 1).orElseThrow(
+        Item item = todoList.get(itemIdx - 1).orElseThrow(
             () -> new TodoApplicationException("No such item"));
         item.done();
         todoList.update(item);

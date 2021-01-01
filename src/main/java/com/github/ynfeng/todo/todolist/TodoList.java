@@ -6,11 +6,11 @@ import java.util.Optional;
 public interface TodoList {
     void add(Item item);
 
-    Optional<Item> getByIndex(int index);
+    Optional<Item> get(int index);
 
-    List<Item> listUnFinishedItem();
+    List<Item> unFinishedItems();
 
-    List<Item> listAll();
+    List<Item> all();
 
     void update(Item item);
 }

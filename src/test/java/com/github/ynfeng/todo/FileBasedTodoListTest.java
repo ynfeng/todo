@@ -29,9 +29,9 @@ class FileBasedTodoListTest {
 
         TodoList newTodoList = new FileBasedTodoList(dataDir);
         newTodoList.add(Item.newItem("baz"));
-        Item foo = newTodoList.getByIndex(0).get();
-        Item bar = newTodoList.getByIndex(1).get();
-        Item baz = newTodoList.getByIndex(2).get();
+        Item foo = newTodoList.get(0).get();
+        Item bar = newTodoList.get(1).get();
+        Item baz = newTodoList.get(2).get();
 
         assertThat(foo.name(), is("foo"));
         assertThat(bar.name(), is("bar"));
@@ -47,7 +47,7 @@ class FileBasedTodoListTest {
         TodoList newTodoList = new FileBasedTodoList(dataDir);
         newTodoList.add(Item.newItem("baz"));
 
-        List<Item> all = newTodoList.listAll();
+        List<Item> all = newTodoList.all();
 
         assertThat(all, is(Arrays.asList(Item.newItem("foo"), Item.newItem("bar"), Item.newItem("baz"))));
     }
@@ -61,7 +61,7 @@ class FileBasedTodoListTest {
         TodoList newTodoList = new FileBasedTodoList(dataDir);
         newTodoList.add(Item.newItem("baz"));
 
-        List<Item> all = newTodoList.listUnFinishedItem();
+        List<Item> all = newTodoList.unFinishedItems();
 
         assertThat(all, is(Arrays.asList(Item.newItem("bar"), Item.newItem("baz"))));
     }
@@ -71,13 +71,13 @@ class FileBasedTodoListTest {
     public void should_update_todo_item() {
         TodoList todoList = new FileBasedTodoList(dataDir);
         todoList.add(Item.newItem("foo"));
-        Item foo = todoList.getByIndex(0).get();
+        Item foo = todoList.get(0).get();
         foo.done();
         todoList.update(foo);
 
         TodoList newTodoList = new FileBasedTodoList(dataDir);
         newTodoList.add(Item.newItem("baz"));
-        foo = newTodoList.getByIndex(0).get();
+        foo = newTodoList.get(0).get();
 
         assertThat(foo.isDone(), is(true));
     }
@@ -90,7 +90,7 @@ class FileBasedTodoListTest {
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
         TodoList newTodoList = new FileBasedTodoList(dataDir);
-        Item chineseItem = newTodoList.getByIndex(0).get();
+        Item chineseItem = newTodoList.get(0).get();
 
         assertThat(chineseItem.name(), is("中文测试"));
     }

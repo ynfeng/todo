@@ -12,10 +12,10 @@ public class ListItemsCommand implements Command {
     public void execute(Args args) {
         TodoList todoList = ApplicationContext.todoList();
         if (args.has("--all")) {
-            printItems(todoList.listAll());
-            printSummary(todoList.listAll());
+            printItems(todoList.all());
+            printSummary(todoList.all());
         } else {
-            printItems(todoList.listUnFinishedItem());
+            printItems(todoList.unFinishedItems());
         }
     }
 }

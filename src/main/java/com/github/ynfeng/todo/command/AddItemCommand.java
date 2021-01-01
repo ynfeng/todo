@@ -15,7 +15,7 @@ public class AddItemCommand implements Command {
         TodoList todoList = ApplicationContext.todoList();
         Item item = Item.newItem(args.getByIndex(1, "Usage: add <item name>"));
         todoList.add(item);
-        printItems(todoList.listUnFinishedItem());
+        printItems(todoList.unFinishedItems());
         println("Item %s added", item.name());
     }
 }
