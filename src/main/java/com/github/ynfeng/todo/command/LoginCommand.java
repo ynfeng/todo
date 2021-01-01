@@ -14,12 +14,12 @@ import com.github.ynfeng.todo.user.User;
 public class LoginCommand implements Command {
 
     @Override
-    public void execute(Args args) {
+    public void execute(ApplicationContext context, Args args) {
         checkArguments(args);
         print("Password:");
         String username = args.getByIndex(2, "Usage: login -u <username>");
         String password = Console.readPassword();
-        User user = findUserOrThrowException(username);
+        User user = findUserOrThrowException(username, context);
         doLogin(password, user);
     }
 
@@ -33,8 +33,8 @@ public class LoginCommand implements Command {
         }
     }
 
-    private User findUserOrThrowException(String username) {
-        return ApplicationContext.userRepository().findUser(username)
+    private User findUserOrThrowException(String username, ApplicationContext context) {
+        return context.userRepository().findUser(username)
             .orElseThrow(() -> new TodoApplicationException("No such user!"));
     }
 

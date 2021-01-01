@@ -10,8 +10,8 @@ import com.github.ynfeng.todo.todolist.TodoList;
 
 public class MarkItemDoneCommand implements Command {
     @Override
-    public void execute(Args args) {
-        TodoList todoList = ApplicationContext.todoList();
+    public void execute(ApplicationContext context, Args args) {
+        TodoList todoList = context.todoList(null);
         int itemIdx = Integer.parseInt(args.getByIndex(1, "Usage: done <item index>"));
         Item item = todoList.get(itemIdx - 1).orElseThrow(
             () -> new TodoApplicationException("No such item"));

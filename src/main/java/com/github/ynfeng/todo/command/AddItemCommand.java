@@ -11,8 +11,8 @@ import com.github.ynfeng.todo.todolist.TodoList;
 public class AddItemCommand implements Command {
 
     @Override
-    public void execute(Args args) {
-        TodoList todoList = ApplicationContext.todoList();
+    public void execute(ApplicationContext context, Args args) {
+        TodoList todoList = context.todoList(null);
         Item item = Item.newItem(args.getByIndex(1, "Usage: add <item name>"));
         todoList.add(item);
         printItems(todoList.unFinishedItems());

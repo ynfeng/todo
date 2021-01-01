@@ -6,8 +6,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.todolist.FileBasedTodoList;
+import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.User;
+import com.github.ynfeng.todo.user.UserRepository;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -25,14 +27,23 @@ public class TodoAppTest {
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
-        ApplicationContext.setTodoList(new FileBasedTodoList("/tmp/todo/" + UUID.randomUUID() + '/'));
-        ApplicationContext.setUserRepository(name -> {
-            if (name.equals("test")) {
-                return Optional.of(new User("test", "12345"));
+        UUID testDir = UUID.randomUUID();
+        app = new TodoApp(new ApplicationContext() {
+            @Override
+            public TodoList todoList(String userName) {
+                return new FileBasedTodoList("/tmp/todo/" + testDir + '/');
             }
-            return Optional.empty();
+
+            @Override
+            public UserRepository userRepository() {
+                return name -> {
+                    if (name.equals("test")) {
+                        return Optional.of(new User("test", "12345"));
+                    }
+                    return Optional.empty();
+                };
+            }
         });
-        app = new TodoApp();
     }
 
     @Test
