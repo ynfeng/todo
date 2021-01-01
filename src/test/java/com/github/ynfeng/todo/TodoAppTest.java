@@ -124,6 +124,7 @@ public class TodoAppTest {
     public void should_logout() {
         app.run(Args.of("logout"));
 
+        assertThat(out.toString(), is("Logout success!\n"));
         assertThat(CurrentUser.get(), nullValue());
     }
 
