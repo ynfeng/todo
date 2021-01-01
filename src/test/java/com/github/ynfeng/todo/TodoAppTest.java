@@ -2,6 +2,7 @@ package com.github.ynfeng.todo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.config.AppConfig;
 import java.io.ByteArrayOutputStream;
@@ -51,6 +52,16 @@ public class TodoAppTest {
 
         app.run(Args.of("done", "1"));
         assertThat(out.toString(), is("Item 1 done\n"));
+    }
+
+    @Test
+    public void cant_mark_not_exists_item() {
+        try {
+            app.run(Args.of("done", "2"));
+            fail();
+        } catch (TodoApplicationException e) {
+            assertThat(e.getMessage(), is("No such item"));
+        }
     }
 
     @Test

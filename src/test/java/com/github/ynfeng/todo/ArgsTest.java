@@ -22,4 +22,16 @@ class ArgsTest {
         }
     }
 
+    @Test
+    public void cant_get_not_exist_argument() {
+        try {
+            Args args = Args.of("add");
+            args.getByIndex(1);
+            fail();
+        } catch (Exception exception) {
+            assertThat(exception, instanceOf(TodoApplicationException.class));
+            assertThat(exception.getMessage(), is("Missing argument"));
+        }
+    }
+
 }

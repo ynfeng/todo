@@ -21,7 +21,11 @@ public class Args {
     }
 
     public String getByIndex(int index) {
-        return args[index];
+        try {
+            return args[index];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new TodoApplicationException("Missing argument");
+        }
     }
 
     public boolean has(String name) {

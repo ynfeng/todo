@@ -19,6 +19,7 @@ class FileBasedItemRepositoryTest {
         dataDir = "/tmp/todo/" + UUID.randomUUID() + '/';
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_save_todo_item_to_file() {
         ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
@@ -27,9 +28,9 @@ class FileBasedItemRepositoryTest {
 
         ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
-        Item foo = newItemRepository.getByIndex(0);
-        Item bar = newItemRepository.getByIndex(1);
-        Item baz = newItemRepository.getByIndex(2);
+        Item foo = newItemRepository.getByIndex(0).get();
+        Item bar = newItemRepository.getByIndex(1).get();
+        Item baz = newItemRepository.getByIndex(2).get();
 
         assertThat(foo.name(), is("foo"));
         assertThat(bar.name(), is("bar"));
@@ -64,21 +65,23 @@ class FileBasedItemRepositoryTest {
         assertThat(all, is(Arrays.asList(Item.newItem("bar"), Item.newItem("baz"))));
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_update_todo_item() {
         ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
         itemRepository.add(Item.newItem("foo"));
-        Item foo = itemRepository.getByIndex(0);
+        Item foo = itemRepository.getByIndex(0).get();
         foo.done();
         itemRepository.update(foo);
 
         ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
         newItemRepository.add(Item.newItem("baz"));
-        foo = newItemRepository.getByIndex(0);
+        foo = newItemRepository.getByIndex(0).get();
 
         assertThat(foo.isDone(), is(true));
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void item_name_can_contains_chinese() {
         ItemRepository itemRepository = new FileBasedItemRepository(dataDir);
@@ -86,8 +89,7 @@ class FileBasedItemRepositoryTest {
         itemRepository.add(Item.newItem("foo"));
         itemRepository.add(Item.newItem("bar"));
         ItemRepository newItemRepository = new FileBasedItemRepository(dataDir);
-        Item chineseItem = newItemRepository.getByIndex(0);
-        Item foo = newItemRepository.getByIndex(1);
+        Item chineseItem = newItemRepository.getByIndex(0).get();
 
         assertThat(chineseItem.name(), is("中文测试"));
     }

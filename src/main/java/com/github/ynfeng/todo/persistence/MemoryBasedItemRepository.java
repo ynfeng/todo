@@ -4,6 +4,7 @@ import com.github.ynfeng.todo.Item;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MemoryBasedItemRepository implements ItemRepository {
@@ -15,8 +16,11 @@ public class MemoryBasedItemRepository implements ItemRepository {
     }
 
     @Override
-    public Item getByIndex(int index) {
-        return items.get(index);
+    public Optional<Item> getByIndex(int index) {
+        if (index < 0 || index >= items.size()) {
+            return Optional.empty();
+        }
+        return Optional.of(items.get(index));
     }
 
     @Override
