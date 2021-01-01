@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo.item;
+package com.github.ynfeng.todo.todolist;
 
 import com.github.ynfeng.todo.persistence.FileStorage;
 import java.util.Collections;
@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FileBasedItemRepository implements ItemRepository {
+public class FileBasedTodoList implements TodoList {
     private final List<Item> items;
     private final FileStorage<Item> storage;
 
-    public FileBasedItemRepository(String dataDir) {
+    public FileBasedTodoList(String dataDir) {
         storage = new FileStorage<>(dataDir + "/todo.json", Item.class);
         items = storage.loadAll();
     }

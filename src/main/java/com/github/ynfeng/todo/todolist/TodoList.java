@@ -1,9 +1,9 @@
-package com.github.ynfeng.todo.item;
+package com.github.ynfeng.todo.todolist;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ItemRepository {
+public interface TodoList {
     void add(Item item);
 
     Optional<Item> getByIndex(int index);

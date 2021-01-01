@@ -1,19 +1,19 @@
 package com.github.ynfeng.todo;
 
-import com.github.ynfeng.todo.item.ItemRepository;
+import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.UserRepository;
 
 public class ApplicationContext {
     private final static ApplicationContext INSTANCE = new ApplicationContext();
-    private ItemRepository itemRepository;
+    private TodoList todoList;
     private UserRepository userRepository;
 
     private ApplicationContext() {
 
     }
 
-    public static ItemRepository itemRepository() {
-        return INSTANCE.itemRepository;
+    public static TodoList todoList() {
+        return INSTANCE.todoList;
     }
 
     public static UserRepository userRepository() {
@@ -24,7 +24,7 @@ public class ApplicationContext {
         INSTANCE.userRepository = userRepository;
     }
 
-    public static void setItemRepository(ItemRepository itemRepository) {
-        INSTANCE.itemRepository = itemRepository;
+    public static void setTodoList(TodoList todoList) {
+        INSTANCE.todoList = todoList;
     }
 }

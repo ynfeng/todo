@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.github.ynfeng.todo.item.FileBasedItemRepository;
+import com.github.ynfeng.todo.todolist.FileBasedTodoList;
 import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.User;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +25,7 @@ public class TodoAppTest {
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
-        ApplicationContext.setItemRepository(new FileBasedItemRepository("/tmp/todo/" + UUID.randomUUID() + '/'));
+        ApplicationContext.setTodoList(new FileBasedTodoList("/tmp/todo/" + UUID.randomUUID() + '/'));
         ApplicationContext.setUserRepository(name -> {
             if (name.equals("test")) {
                 return Optional.of(new User("test", "12345"));

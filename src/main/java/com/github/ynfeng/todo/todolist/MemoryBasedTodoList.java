@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo.item;
+package com.github.ynfeng.todo.todolist;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class MemoryBasedItemRepository implements ItemRepository {
+public class MemoryBasedTodoList implements TodoList {
     public final List<Item> items = new ArrayList<>();
 
     @Override

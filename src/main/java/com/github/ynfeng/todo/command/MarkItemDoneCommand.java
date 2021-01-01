@@ -5,18 +5,18 @@ import static com.github.ynfeng.todo.Console.println;
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.TodoApplicationException;
-import com.github.ynfeng.todo.item.Item;
-import com.github.ynfeng.todo.item.ItemRepository;
+import com.github.ynfeng.todo.todolist.Item;
+import com.github.ynfeng.todo.todolist.TodoList;
 
 public class MarkItemDoneCommand implements Command {
     @Override
     public void execute(Args args) {
-        ItemRepository itemRepository = ApplicationContext.itemRepository();
+        TodoList todoList = ApplicationContext.todoList();
         int itemIdx = Integer.parseInt(args.getByIndex(1, "Usage: done <item index>"));
-        Item item = itemRepository.getByIndex(itemIdx - 1).orElseThrow(
+        Item item = todoList.getByIndex(itemIdx - 1).orElseThrow(
             () -> new TodoApplicationException("No such item"));
         item.done();
-        itemRepository.update(item);
+        todoList.update(item);
         println("Item %d done", itemIdx);
     }
 }
