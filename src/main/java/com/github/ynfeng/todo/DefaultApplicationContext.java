@@ -15,7 +15,7 @@ public class DefaultApplicationContext implements ApplicationContext {
     @Override
     public TodoList todoList(String userName) {
         String home = System.getProperty("user.home");
-        return new FileBasedTodoList(config.getConfigOrDefault("dataDir", home + "/.todo/data.json"));
+        return new FileBasedTodoList(config.getConfigOrDefault("dataDir", home + "/.todo/"));
     }
 
     @Override

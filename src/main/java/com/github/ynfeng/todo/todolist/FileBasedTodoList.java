@@ -11,7 +11,7 @@ public class FileBasedTodoList implements TodoList {
     private final FileStorage<Item> storage;
 
     public FileBasedTodoList(String dataDir) {
-        storage = new FileStorage<>(dataDir + "/todo.json", Item.class);
+        storage = new FileStorage<>(dataDir + "/data.json", Item.class);
         items = storage.loadAll();
     }
 
