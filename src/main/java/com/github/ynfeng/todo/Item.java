@@ -6,7 +6,7 @@ public class Item {
 
     private Item(String name) {
         this.name = name;
-        status = Status.UnFinish;
+        status = Status.UnFinished;
     }
 
     public static Item newItem(String name) {
@@ -34,7 +34,7 @@ public class Item {
     }
 
     enum Status {
-        UnFinish, Done
+        UnFinished, Done
     }
 
     @Override
