@@ -6,8 +6,7 @@ import com.github.ynfeng.todo.item.FileBasedItemRepository;
 public class Bootstrap {
 
     public void boot(AppConfig config) {
-        FileBasedItemRepository itemRepository = newItemRepository(config);
-        ApplicationContext.setItemRepository(itemRepository);
+        ApplicationContext.setItemRepository(newItemRepository(config));
     }
 
     private static FileBasedItemRepository newItemRepository(AppConfig config) {
