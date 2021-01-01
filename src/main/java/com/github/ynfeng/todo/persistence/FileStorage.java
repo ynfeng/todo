@@ -1,5 +1,6 @@
 package com.github.ynfeng.todo.persistence;
 
+import com.github.ynfeng.todo.TodoApplicationException;
 import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -36,7 +37,7 @@ public class FileStorage<T> {
                 dataFile.createNewFile();
             }
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new TodoApplicationException(e);
         }
     }
 
@@ -48,7 +49,7 @@ public class FileStorage<T> {
                 .map(line -> gson.fromJson(line, type))
                 .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new TodoApplicationException(e);
         }
     }
 
@@ -57,7 +58,7 @@ public class FileStorage<T> {
             Files.asCharSink(dataFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
                 .write(gson.toJson(item) + "\r\n");
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new TodoApplicationException(e);
         }
     }
 
@@ -66,7 +67,7 @@ public class FileStorage<T> {
             File tempFile = writeItemsToTempFile(items);
             replaceOldDataFile(tempFile);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new TodoApplicationException(e);
         }
     }
 
