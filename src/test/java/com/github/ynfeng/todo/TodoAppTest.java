@@ -5,6 +5,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.config.AppConfig;
+import com.github.ynfeng.todo.user.CurrentUser;
+import com.github.ynfeng.todo.user.User;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -31,6 +33,7 @@ public class TodoAppTest {
         };
         new ApplicationContext(config);
         app = new TodoApp();
+        CurrentUser.set(new User("test", "12345"));
     }
 
     @Test
