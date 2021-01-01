@@ -7,12 +7,13 @@ import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.todolist.TodoList;
+import com.github.ynfeng.todo.user.CurrentUser;
 
 public class AddItemCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
-        TodoList todoList = context.todoList(null);
+        TodoList todoList = context.todoList(CurrentUser.username());
         Item item = Item.newItem(args.getByIndex(1, "Usage: add <item name>"));
         todoList.add(item);
         printItems(todoList.unFinishedItems());

@@ -16,6 +16,13 @@ public class CurrentUser {
         return INSTANCE.user;
     }
 
+    public static String username() {
+        if (get() == null) {
+            return "anonymous";
+        }
+        return get().name();
+    }
+
     public static void remove() {
         INSTANCE.user = null;
     }
