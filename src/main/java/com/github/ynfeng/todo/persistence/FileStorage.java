@@ -1,6 +1,5 @@
 package com.github.ynfeng.todo.persistence;
 
-import com.github.ynfeng.todo.Item;
 import com.google.common.io.FileWriteMode;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -10,13 +9,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileBasedItemStorage {
+public class FileStorage<T> {
     private final File dataFile;
+    private final Class<T> type;
     private final Gson gson = new Gson();
 
-    public FileBasedItemStorage(String dataDir) {
-        ensureDirExists(dataDir);
-        dataFile = new File(dataDir + "todo.json");
+    public FileStorage(String dataFilePath, Class<T> type) {
+        this.dataFile = new File(dataFilePath);
+        this.type = type;
+        ensureDirExists(dataFile.getParent());
         ensureFileExists(dataFile);
     }
 
@@ -40,18 +41,18 @@ public class FileBasedItemStorage {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    public List<Item> loadDataFromFile() {
+    public List<T> loadAll() {
         try {
             return Files.readLines(dataFile, StandardCharsets.UTF_8)
                 .stream()
-                .map(line -> gson.fromJson(line, Item.class))
+                .map(line -> gson.fromJson(line, type))
                 .collect(Collectors.toList());
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    public void appendItem(Item item) {
+    public void append(T item) {
         try {
             Files.asCharSink(dataFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
                 .write(gson.toJson(item) + "\r\n");
@@ -60,7 +61,7 @@ public class FileBasedItemStorage {
         }
     }
 
-    public void updateAll(List<Item> items) {
+    public void updateAll(List<T> items) {
         try {
             File tempFile = writeItemsToTempFile(items);
             replaceOldDataFile(tempFile);
@@ -70,10 +71,10 @@ public class FileBasedItemStorage {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    private File writeItemsToTempFile(List<Item> items) throws IOException {
+    private File writeItemsToTempFile(List<T> items) throws IOException {
         File tempFile = createTempFile();
         Files.asCharSink(tempFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
-            .writeLines(items.stream().map(each -> gson.toJson(each)));
+            .writeLines(items.stream().map(gson::toJson));
         return tempFile;
     }
 

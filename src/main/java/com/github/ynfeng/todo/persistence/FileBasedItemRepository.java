@@ -8,18 +8,17 @@ import java.util.stream.Collectors;
 
 public class FileBasedItemRepository implements ItemRepository {
     private final List<Item> items;
-
-    private final FileBasedItemStorage storage;
+    private final FileStorage<Item> storage;
 
     public FileBasedItemRepository(String dataDir) {
-        storage = new FileBasedItemStorage(dataDir);
-        items = storage.loadDataFromFile();
+        storage = new FileStorage<>(dataDir + "/todo.json", Item.class);
+        items = storage.loadAll();
     }
 
     @Override
     public void add(Item item) {
         items.add(item);
-        storage.appendItem(item);
+        storage.append(item);
     }
 
     @Override
