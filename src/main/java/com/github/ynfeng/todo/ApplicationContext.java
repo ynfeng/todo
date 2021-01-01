@@ -1,20 +1,30 @@
 package com.github.ynfeng.todo;
 
-import com.github.ynfeng.todo.config.AppConfig;
-import com.github.ynfeng.todo.item.FileBasedItemRepository;
 import com.github.ynfeng.todo.item.ItemRepository;
+import com.github.ynfeng.todo.user.UserRepository;
 
 public class ApplicationContext {
-    private final ItemRepository itemRepository;
-    private static ApplicationContext INSTANCE;
+    private final static ApplicationContext INSTANCE = new ApplicationContext();
+    private ItemRepository itemRepository;
+    private UserRepository userRepository;
 
-    public ApplicationContext(AppConfig config) {
-        String baseDir = System.getProperty("user.home");
-        itemRepository = new FileBasedItemRepository(config.getConfigOrDefault("dataDir", baseDir + "/.todo/"));
-        INSTANCE = this;
+    private ApplicationContext() {
+
     }
 
     public static ItemRepository itemRepository() {
         return INSTANCE.itemRepository;
+    }
+
+    public static UserRepository userRepository() {
+        return INSTANCE.userRepository;
+    }
+
+    public static void setUserRepository(UserRepository userRepository) {
+        INSTANCE.userRepository = userRepository;
+    }
+
+    public static void setItemRepository(ItemRepository itemRepository) {
+        INSTANCE.itemRepository = itemRepository;
     }
 }

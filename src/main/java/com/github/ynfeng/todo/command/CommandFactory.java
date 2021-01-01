@@ -17,6 +17,8 @@ public final class CommandFactory {
                 return new MarkItemDoneCommand();
             case "login":
                 return new LoginCommand();
+            case "logout":
+                return new LogoutCommand();
             default:
                 throw new TodoApplicationException("unsupported command.");
         }

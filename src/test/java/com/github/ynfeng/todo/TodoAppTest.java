@@ -1,15 +1,17 @@
 package com.github.ynfeng.todo;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import com.github.ynfeng.todo.config.AppConfig;
+import com.github.ynfeng.todo.item.FileBasedItemRepository;
 import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.User;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,17 +25,14 @@ public class TodoAppTest {
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
-
-        AppConfig config = new AppConfig() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public <T> T getConfigOrDefault(String key, T defaultValue) {
-                return (T) ("/tmp/todo/" + UUID.randomUUID() + '/');
+        ApplicationContext.setItemRepository(new FileBasedItemRepository("/tmp/todo/" + UUID.randomUUID() + '/'));
+        ApplicationContext.setUserRepository(name -> {
+            if (name.equals("test")) {
+                return Optional.of(new User("test", "12345"));
             }
-        };
-        new ApplicationContext(config);
+            return Optional.empty();
+        });
         app = new TodoApp();
-        CurrentUser.set(new User("test", "12345"));
     }
 
     @Test
@@ -92,46 +91,50 @@ public class TodoAppTest {
     }
 
     @Test
-    public void should_mark_item_done_with_different_processes() {
-        String dataDir = UUID.randomUUID().toString();
-        newContext(dataDir);
-        app.run(Args.of("add", "中文测试"));
-        newContext(dataDir);
-        app.run(Args.of("add", "foo"));
-        newContext(dataDir);
-        app.run(Args.of("done", "1"));
-        out.reset();
+    public void should_login_with_password() {
+        Console.passwordReader(() -> "12345");
+        app.run(Args.of("login", "-u", "test"));
 
-        newContext(dataDir);
-        app.run(Args.of("list"));
-        assertThat(out.toString(), is("1. foo\n"));
+        assertThat(out.toString(), is("Password:\nLogin success!\n"));
+        assertThat(CurrentUser.get().name(), is("test"));
+        assertThat(CurrentUser.get().password(), is("12345"));
     }
 
     @Test
-    public void should_login_with_password() {
+    public void should_login_failed_when_user_not_exists() {
         Console.passwordReader(() -> "12345");
-        app.run(Args.of("login", "-u", "user"));
-
-        assertThat(out.toString(), is("Password:\nLogin success!\n"));
+        try {
+            app.run(Args.of("login", "-u", "not exists"));
+            fail();
+        } catch (TodoApplicationException e) {
+            assertThat(e.getMessage(), is("No such user!"));
+        }
     }
 
     @Test
     public void should_login_failed_when_password_incorrect() {
         Console.passwordReader(() -> "123");
-        app.run(Args.of("login", "-u", "user"));
+        app.run(Args.of("login", "-u", "test"));
 
         assertThat(out.toString(), is("Password:\nLogin failed!\n"));
+        assertThat(CurrentUser.get(), nullValue());
     }
 
-    private static void newContext(String dataDir) {
-        AppConfig config = new AppConfig() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public <T> T getConfigOrDefault(String key, T defaultValue) {
-                return (T) ("/tmp/todo/test/" + dataDir + '/');
-            }
-        };
-        new ApplicationContext(config);
+    @Test
+    public void should_logout() {
+        app.run(Args.of("logout"));
+
+        assertThat(CurrentUser.get(), nullValue());
+    }
+
+    @Test
+    public void cant_login_with_wrong_arguments() {
+        try {
+            app.run(Args.of("login", "user"));
+            fail();
+        } catch (TodoApplicationException e) {
+            assertThat(e.getMessage(), is("Usage: login -u <username>"));
+        }
     }
 
     @AfterEach

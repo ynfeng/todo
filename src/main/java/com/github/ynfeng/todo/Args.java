@@ -17,7 +17,7 @@ public class Args {
         if (args == null || args.length == 0 || args[0] == null) {
             throw new TodoApplicationException("command not found.");
         }
-        return args[0];
+        return args[0].trim();
     }
 
     public String getByIndex(int index) {
