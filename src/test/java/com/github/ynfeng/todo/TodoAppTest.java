@@ -117,7 +117,7 @@ public class TodoAppTest {
         Console.passwordReader(() -> "123");
         app.run(Args.of("login", "-u", "user"));
 
-        assertThat(out.toString(), is("Password:\nLogin falied!\n"));
+        assertThat(out.toString(), is("Password:\nLogin failed!\n"));
     }
 
     private static void newContext(String dataDir) {

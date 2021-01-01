@@ -15,7 +15,7 @@ public class LoginCommand implements Command {
         if ("12345".equals(password)) {
             println("\nLogin success!");
         } else {
-            println("\nLogin falied!");
+            println("\nLogin failed!");
         }
     }
 }
