@@ -12,7 +12,7 @@ public class MarkItemDoneCommand implements Command {
     @Override
     public void execute(Args args) {
         ItemRepository itemRepository = ApplicationContext.itemRepository();
-        int itemIdx = Integer.parseInt(args.getByIndex(1));
+        int itemIdx = Integer.parseInt(args.getByIndex(1, "Usage: done <item index>"));
         Item item = itemRepository.getByIndex(itemIdx - 1).orElseThrow(
             () -> new TodoApplicationException("No such item"));
         item.done();

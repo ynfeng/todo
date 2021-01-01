@@ -20,11 +20,11 @@ public class Args {
         return args[0].trim();
     }
 
-    public String getByIndex(int index) {
+    public String getByIndex(int index, String message) {
         try {
             return args[index];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new TodoApplicationException("Missing argument");
+            throw new TodoApplicationException(message);
         }
     }
 

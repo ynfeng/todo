@@ -17,7 +17,7 @@ public class LoginCommand implements Command {
     public void execute(Args args) {
         checkArguments(args);
         print("Password:");
-        String username = args.getByIndex(2);
+        String username = args.getByIndex(2, "Usage: login -u <username>");
         String password = Console.readPassword();
         User user = findUserOrThrowException(username);
         doLogin(password, user);
