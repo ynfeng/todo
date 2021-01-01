@@ -1,24 +1,17 @@
-package com.github.ynfeng.todo.persistence;
+package com.github.ynfeng.todo.item;
 
-import com.github.ynfeng.todo.Item;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FileBasedItemRepository implements ItemRepository {
-    private final List<Item> items;
-    private final FileStorage<Item> storage;
-
-    public FileBasedItemRepository(String dataDir) {
-        storage = new FileStorage<>(dataDir + "/todo.json", Item.class);
-        items = storage.loadAll();
-    }
+public class MemoryBasedItemRepository implements ItemRepository {
+    public final List<Item> items = new ArrayList<>();
 
     @Override
     public void add(Item item) {
         items.add(item);
-        storage.append(item);
     }
 
     @Override
@@ -41,6 +34,7 @@ public class FileBasedItemRepository implements ItemRepository {
 
     @Override
     public void update(Item item) {
-        storage.updateAll(items);
+
     }
+
 }

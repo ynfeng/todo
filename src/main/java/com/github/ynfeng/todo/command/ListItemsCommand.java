@@ -5,7 +5,7 @@ import static com.github.ynfeng.todo.Console.printSummary;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
-import com.github.ynfeng.todo.persistence.ItemRepository;
+import com.github.ynfeng.todo.item.ItemRepository;
 
 public class ListItemsCommand implements Command {
     @Override

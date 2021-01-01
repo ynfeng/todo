@@ -3,8 +3,9 @@ package com.github.ynfeng.todo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.github.ynfeng.todo.persistence.FileBasedItemRepository;
-import com.github.ynfeng.todo.persistence.ItemRepository;
+import com.github.ynfeng.todo.item.FileBasedItemRepository;
+import com.github.ynfeng.todo.item.Item;
+import com.github.ynfeng.todo.item.ItemRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;

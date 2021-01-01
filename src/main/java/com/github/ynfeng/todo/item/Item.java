@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.item;
 
 public class Item {
     private final String name;

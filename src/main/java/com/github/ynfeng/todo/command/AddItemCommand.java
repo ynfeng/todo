@@ -5,8 +5,8 @@ import static com.github.ynfeng.todo.Console.println;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
-import com.github.ynfeng.todo.Item;
-import com.github.ynfeng.todo.persistence.ItemRepository;
+import com.github.ynfeng.todo.item.Item;
+import com.github.ynfeng.todo.item.ItemRepository;
 
 public class AddItemCommand implements Command {
 

@@ -1,8 +1,8 @@
 package com.github.ynfeng.todo;
 
 import com.github.ynfeng.todo.config.AppConfig;
-import com.github.ynfeng.todo.persistence.FileBasedItemRepository;
-import com.github.ynfeng.todo.persistence.ItemRepository;
+import com.github.ynfeng.todo.item.FileBasedItemRepository;
+import com.github.ynfeng.todo.item.ItemRepository;
 
 public class ApplicationContext {
     private final ItemRepository itemRepository;

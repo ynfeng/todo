@@ -1,6 +1,5 @@
-package com.github.ynfeng.todo.persistence;
+package com.github.ynfeng.todo.item;
 
-import com.github.ynfeng.todo.Item;
 import java.util.List;
 import java.util.Optional;
 
