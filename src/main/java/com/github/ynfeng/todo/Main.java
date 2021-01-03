@@ -14,5 +14,4 @@ public final class Main {
             println(exception.getMessage());
         }
     }
-
 }

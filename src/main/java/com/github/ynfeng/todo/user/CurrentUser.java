@@ -1,18 +1,27 @@
 package com.github.ynfeng.todo.user;
 
+import com.github.ynfeng.todo.persistence.FileStorage;
+import com.google.common.collect.Lists;
+
 public class CurrentUser {
-    private User user;
+    private LoggedUser user;
     private final static CurrentUser INSTANCE = new CurrentUser();
+    private final static FileStorage<LoggedUser> STORAGE = new FileStorage<>(System.getProperty("user.home") + "/.logged-user.json", LoggedUser.class);
 
     private CurrentUser() {
-
     }
 
-    public static void set(User user) {
+    public static void set(LoggedUser user) {
+        STORAGE.updateAll(Lists.newArrayList(user));
         INSTANCE.user = user;
     }
 
-    public static User get() {
+    public static LoggedUser get() {
+        if (INSTANCE.user == null) {
+            if (!STORAGE.loadAll().isEmpty()) {
+                INSTANCE.user = STORAGE.loadAll().get(0);
+            }
+        }
         return INSTANCE.user;
     }
 
@@ -20,10 +29,11 @@ public class CurrentUser {
         if (get() == null) {
             return "anonymous";
         }
-        return get().name();
+        return get().username();
     }
 
     public static void remove() {
+        STORAGE.updateAll(Lists.newArrayList());
         INSTANCE.user = null;
     }
 }

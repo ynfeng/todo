@@ -10,11 +10,10 @@ class CurrentUserTest {
 
     @Test
     public void should_set_current_user() {
-        CurrentUser.set(new User("testUser", "12345"));
+        CurrentUser.set(new LoggedUser("testUser"));
 
-        User user = CurrentUser.get();
-        assertThat(user.name(), is("testUser"));
-        assertThat(user.password(), is("12345"));
+        LoggedUser loggedUser = CurrentUser.get();
+        assertThat(loggedUser.username(), is("testUser"));
     }
 
 }

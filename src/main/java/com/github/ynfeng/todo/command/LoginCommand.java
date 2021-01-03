@@ -9,6 +9,7 @@ import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.Console;
 import com.github.ynfeng.todo.TodoApplicationException;
 import com.github.ynfeng.todo.user.CurrentUser;
+import com.github.ynfeng.todo.user.LoggedUser;
 import com.github.ynfeng.todo.user.User;
 
 public class LoginCommand implements Command {
@@ -25,7 +26,7 @@ public class LoginCommand implements Command {
 
     private void doLogin(String password, User user) {
         if (user.password().equals(password)) {
-            CurrentUser.set(user);
+            CurrentUser.set(new LoggedUser(user.name()));
             println("\nLogin success!");
         } else {
             CurrentUser.remove();

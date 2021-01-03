@@ -36,14 +36,26 @@ public class TodoAppTest {
 
             @Override
             public UserRepository userRepository() {
-                return name -> {
-                    if (name.equals("test")) {
-                        return Optional.of(new User("test", "12345"));
+                return new UserRepository() {
+
+                    @Override
+                    public Optional<User> findUser(String name) {
+                        if (name.equals("test")) {
+                            return Optional.of(new User("test", "12345"));
+                        } else if (name.equals("not exists")) {
+                            return Optional.empty();
+                        } else {
+                            return Optional.of(new User(name, "12345"));
+                        }
                     }
-                    return Optional.empty();
+
+                    @Override
+                    public void add(User user) {
+                    }
                 };
             }
         });
+        Console.passwordReader(() -> "12345");
     }
 
     @Test
@@ -107,8 +119,7 @@ public class TodoAppTest {
         app.run(Args.of("login", "-u", "test"));
 
         assertThat(out.toString(), is("Password:\nLogin success!\n"));
-        assertThat(CurrentUser.get().name(), is("test"));
-        assertThat(CurrentUser.get().password(), is("12345"));
+        assertThat(CurrentUser.get().username(), is("test"));
     }
 
     @Test
@@ -147,6 +158,25 @@ public class TodoAppTest {
         } catch (TodoApplicationException e) {
             assertThat(e.getMessage(), is("Usage: login -u <username>"));
         }
+    }
+
+    @Test
+    public void should_support_multi_user() {
+        String user1 = UUID.randomUUID().toString();
+        String user2 = UUID.randomUUID().toString();
+        app.run(Args.of("login", "-u", user1));
+        app.run(Args.of("add", "user1-foo"));
+        out.reset();
+        app.run(Args.of("list"));
+        assertThat(CurrentUser.username(), is(user1));
+        assertThat(out.toString(), is("1. user1-foo\n"));
+
+        app.run(Args.of("login", "-u", user2));
+        app.run(Args.of("add", "user2-foo"));
+        out.reset();
+        app.run(Args.of("list"));
+        assertThat(CurrentUser.username(), is(user2));
+        assertThat(out.toString(), is("1. user2-foo\n"));
     }
 
     @AfterEach
