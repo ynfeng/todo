@@ -45,4 +45,9 @@ class MainTest {
         out.close();
     }
 
+    @Test
+    public void should_output_tips_when_argument_incorrect() {
+        Main.main(new String[] {"adduser", "test"});
+        assertThat(out.toString(), is("Usage: adduser -u <username>\n"));
+    }
 }

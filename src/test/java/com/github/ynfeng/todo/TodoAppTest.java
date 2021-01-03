@@ -10,9 +10,11 @@ import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.User;
 import com.github.ynfeng.todo.user.UserRepository;
+import com.google.common.collect.Lists;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
@@ -22,13 +24,30 @@ import org.junit.jupiter.api.Test;
 public class TodoAppTest {
     private TodoApp app;
     private ByteArrayOutputStream out;
+    private ApplicationContext context;
 
     @BeforeEach
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
         UUID testDir = UUID.randomUUID();
-        app = new TodoApp(new ApplicationContext() {
+        UserRepository userRepository = new UserRepository() {
+            private final List<User> users = Lists.newArrayList();
+
+            @Override
+            public Optional<User> findUser(String name) {
+                return users.stream()
+                    .filter(user -> user.name().equals(name))
+                    .findAny();
+            }
+
+            @Override
+            public void add(User user) {
+                users.add(user);
+            }
+        };
+
+        context = new ApplicationContext() {
             @Override
             public TodoList todoList(String userName) {
                 return new FileBasedTodoList("/tmp/todo/" + testDir + '/');
@@ -36,26 +55,12 @@ public class TodoAppTest {
 
             @Override
             public UserRepository userRepository() {
-                return new UserRepository() {
-
-                    @Override
-                    public Optional<User> findUser(String name) {
-                        if (name.equals("test")) {
-                            return Optional.of(new User("test", "12345"));
-                        } else if (name.equals("not exists")) {
-                            return Optional.empty();
-                        } else {
-                            return Optional.of(new User(name, "12345"));
-                        }
-                    }
-
-                    @Override
-                    public void add(User user) {
-                    }
-                };
+                return userRepository;
             }
-        });
+        };
+        app = new TodoApp(context);
         Console.passwordReader(() -> "12345");
+        context.userRepository().add(new User("test", "12345"));
     }
 
     @Test
@@ -164,6 +169,8 @@ public class TodoAppTest {
     public void should_support_multi_user() {
         String user1 = UUID.randomUUID().toString();
         String user2 = UUID.randomUUID().toString();
+        context.userRepository().add(new User(user1, "12345"));
+        context.userRepository().add(new User(user2, "12345"));
         app.run(Args.of("login", "-u", user1));
         app.run(Args.of("add", "user1-foo"));
         out.reset();
@@ -177,6 +184,24 @@ public class TodoAppTest {
         app.run(Args.of("list"));
         assertThat(CurrentUser.username(), is(user2));
         assertThat(out.toString(), is("1. user2-foo\n"));
+    }
+
+    @Test
+    public void should_add_user() {
+        Console.passwordReader(() -> "123456");
+        app.run(Args.of("adduser", "-u", "newUser"));
+        assertThat(out.toString(), is("Password:\nuser added.\n"));
+        out.reset();
+
+        app.run(Args.of("login", "-u", "newUser"));
+        assertThat(out.toString(), is("Password:\nLogin success!\n"));
+    }
+
+    @Test
+    public void username_cant_duplicate() {
+        Console.passwordReader(() -> "123456");
+        app.run(Args.of("adduser", "-u", "test"));
+        assertThat(out.toString(), is("user already exists.\n"));
     }
 
     @AfterEach
