@@ -17,3 +17,15 @@ java -jar build/libs/todo-1.0-SNAPSHOT.jar done 3
 java -jar build/libs/todo-1.0-SNAPSHOT.jar list
 java -jar build/libs/todo-1.0-SNAPSHOT.jar list --all
 ```
+
+# 第二阶段功能
+
+1. 添加新用户
+2. 用户登录和登出
+3. 登录不同的用户看到的数据列表不同
+
+```
+java -jar build/libs/todo-1.0-SNAPSHOT.jar adduser -u testuser
+java -jar build/libs/todo-1.0-SNAPSHOT.jar login -u testuser
+java -jar build/libs/todo-1.0-SNAPSHOT.jar list --all
+```
