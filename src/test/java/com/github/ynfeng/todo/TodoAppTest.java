@@ -14,6 +14,9 @@ import com.google.common.collect.Lists;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -202,6 +205,20 @@ public class TodoAppTest {
         Console.passwordReader(() -> "123456");
         app.run(Args.of("adduser", "-u", "test"));
         assertThat(out.toString(), is("user already exists.\n"));
+    }
+
+    @Test
+    public void should_export_todo_list_to_file() throws IOException {
+        String exportPath = "/tmp/todolist";
+        Files.delete(Paths.get(exportPath));
+        app.run(Args.of("add", "foo"));
+        app.run(Args.of("add", "bar"));
+        app.run(Args.of("export", ">", exportPath));
+
+        boolean exists = Files.exists(Paths.get(exportPath), LinkOption.NOFOLLOW_LINKS);
+        assertThat(exists, is(true));
+        List<String> allLines = Files.readAllLines(Paths.get(exportPath));
+        assertThat(allLines, is(Lists.newArrayList("{\"name\":\"foo\",\"status\":\"UnFinished\"}", "{\"name\":\"bar\",\"status\":\"UnFinished\"}")));
     }
 
     @AfterEach

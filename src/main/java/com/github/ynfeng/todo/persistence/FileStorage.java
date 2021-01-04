@@ -91,4 +91,8 @@ public class FileStorage<T> {
         java.nio.file.Files.delete(dataFile.toPath());
         java.nio.file.Files.move(tempFile.toPath(), dataFile.toPath());
     }
+
+    public void appendAll(List<T> list) {
+        list.forEach(this::append);
+    }
 }

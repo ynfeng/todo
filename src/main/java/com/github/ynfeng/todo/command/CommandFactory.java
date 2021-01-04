@@ -21,6 +21,8 @@ public final class CommandFactory {
                 return new LogoutCommand();
             case "adduser":
                 return new AddUserCommand();
+            case "export":
+                return new ExportCommand();
             default:
                 throw new TodoApplicationException("unsupported command.");
         }
