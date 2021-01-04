@@ -21,4 +21,6 @@ public interface TodoList {
         item.done();
         update(item);
     }
+
+    void addAll(List<Item> itemList);
 }

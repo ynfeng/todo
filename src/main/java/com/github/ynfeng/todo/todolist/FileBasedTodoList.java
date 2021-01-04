@@ -44,4 +44,9 @@ public class FileBasedTodoList implements TodoList {
     public void update(Item item) {
         storage.updateAll(items);
     }
+
+    @Override
+    public void addAll(List<Item> itemList) {
+        itemList.forEach(this::add);
+    }
 }

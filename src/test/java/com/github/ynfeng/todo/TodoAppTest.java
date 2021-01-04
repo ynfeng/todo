@@ -193,7 +193,7 @@ public class TodoAppTest {
     public void should_add_user() {
         Console.passwordReader(() -> "123456");
         app.run(Args.of("adduser", "-u", "newUser"));
-        assertThat(out.toString(), is("Password:\nuser added.\n"));
+        assertThat(out.toString(), is("Password:user added.\n"));
         out.reset();
 
         app.run(Args.of("login", "-u", "newUser"));
@@ -219,6 +219,24 @@ public class TodoAppTest {
         assertThat(exists, is(true));
         List<String> allLines = Files.readAllLines(Paths.get(exportPath));
         assertThat(allLines, is(Lists.newArrayList("{\"name\":\"foo\",\"status\":\"UnFinished\"}", "{\"name\":\"bar\",\"status\":\"UnFinished\"}")));
+    }
+
+    @Test
+    public void should_import_todo_list_from_file() throws IOException {
+        String exportPath = "/tmp/todolist";
+        Files.delete(Paths.get(exportPath));
+        Console.passwordReader(() -> "12345");
+        app.run(Args.of("add", "foo"));
+        app.run(Args.of("add", "bar"));
+        app.run(Args.of("export", "-o", exportPath));
+        app.run(Args.of("adduser", "-u", "importtest"));
+        app.run(Args.of("login", "-u", "importtest"));
+        app.run(Args.of("add", "foo"));
+        app.run(Args.of("import", "-f", exportPath));
+        out.reset();
+
+        app.run(Args.of("list"));
+        assertThat(out.toString(), is("1. foo\n2. foo\n3. bar\n"));
     }
 
     @AfterEach

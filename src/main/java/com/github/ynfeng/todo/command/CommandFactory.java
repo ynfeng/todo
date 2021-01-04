@@ -23,6 +23,8 @@ public final class CommandFactory {
                 return new AddUserCommand();
             case "export":
                 return new ExportCommand();
+            case "import":
+                return new ImportCommand();
             default:
                 throw new TodoApplicationException("unsupported command.");
         }

@@ -1,5 +1,6 @@
 package com.github.ynfeng.todo.command;
 
+import static com.github.ynfeng.todo.Console.print;
 import static com.github.ynfeng.todo.Console.println;
 import static com.github.ynfeng.todo.Console.readPassword;
 
@@ -21,7 +22,7 @@ public class AddUserCommand implements Command {
     }
 
     private void addUser(ApplicationContext context, String username) {
-        println("Password:");
+        print("Password:");
         String password = readPassword();
         User user = new User(username, password);
         context.userRepository().add(user);
