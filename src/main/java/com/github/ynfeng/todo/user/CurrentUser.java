@@ -5,8 +5,8 @@ import com.google.common.collect.Lists;
 
 public class CurrentUser {
     private LoggedUser user;
-    private final static CurrentUser INSTANCE = new CurrentUser();
-    private final static FileStorage<LoggedUser> STORAGE = new FileStorage<>(System.getProperty("user.home") + "/.logged-user.json", LoggedUser.class);
+    private static final CurrentUser INSTANCE = new CurrentUser();
+    private static final FileStorage<LoggedUser> STORAGE = new FileStorage<>(System.getProperty("user.home") + "/.logged-user.json", LoggedUser.class);
 
     private CurrentUser() {
     }
