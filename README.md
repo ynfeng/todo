@@ -6,7 +6,7 @@ From https://time.geekbang.org/column/intro/382
 ./gradlew build
 ```
 
-# 运行效果
+# 第一阶段功能
 
 ```
 java -jar build/libs/todo-1.0-SNAPSHOT.jar add 中文测试
