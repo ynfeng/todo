@@ -31,3 +31,13 @@ java -jar build/libs/todo-1.0-SNAPSHOT.jar login -u testuser
 java -jar build/libs/todo-1.0-SNAPSHOT.jar list --all
 java -jar build/libs/todo-1.0-SNAPSHOT.jar logout
 ```
+
+# 第三阶段功能
+
+1. 导出
+2. 导入
+
+```
+java -jar build/libs/todo-1.0-SNAPSHOT.jar export -o /tmp/export
+java -jar build/libs/todo-1.0-SNAPSHOT.jar import -f /tmp/export
+```
