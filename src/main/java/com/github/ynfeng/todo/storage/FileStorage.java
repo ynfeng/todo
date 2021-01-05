@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo.persistence;
+package com.github.ynfeng.todo.storage;
 
 import com.github.ynfeng.todo.TodoApplicationException;
 import com.google.common.io.FileWriteMode;
@@ -10,13 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileStorage<T> {
+public class FileStorage<T> implements Storage<T> {
     private final File dataFile;
     private final Class<T> type;
     private final Gson gson = new Gson();
 
     public FileStorage(String dataFilePath, Class<T> type) {
-        this.dataFile = new File(dataFilePath);
+        dataFile = new File(dataFilePath);
         this.type = type;
         ensureDirExists(dataFile.getParent());
         ensureFileExists(dataFile);
@@ -41,6 +41,7 @@ public class FileStorage<T> {
         }
     }
 
+    @Override
     @SuppressWarnings("UnstableApiUsage")
     public List<T> loadAll() {
         try {
@@ -53,6 +54,7 @@ public class FileStorage<T> {
         }
     }
 
+    @Override
     public void append(T item) {
         try {
             Files.asCharSink(dataFile, StandardCharsets.UTF_8, FileWriteMode.APPEND)
@@ -62,6 +64,7 @@ public class FileStorage<T> {
         }
     }
 
+    @Override
     public void updateAll(List<T> items) {
         try {
             File tempFile = writeItemsToTempFile(items);
@@ -92,6 +95,7 @@ public class FileStorage<T> {
         java.nio.file.Files.move(tempFile.toPath(), dataFile.toPath());
     }
 
+    @Override
     public void appendAll(List<T> list) {
         list.forEach(this::append);
     }

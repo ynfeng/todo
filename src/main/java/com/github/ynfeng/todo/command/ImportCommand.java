@@ -2,7 +2,7 @@ package com.github.ynfeng.todo.command;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
-import com.github.ynfeng.todo.persistence.FileStorage;
+import com.github.ynfeng.todo.storage.FileStorage;
 import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.user.CurrentUser;
 

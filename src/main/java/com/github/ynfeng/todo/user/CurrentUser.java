@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo.user;
 
-import com.github.ynfeng.todo.persistence.FileStorage;
+import com.github.ynfeng.todo.storage.FileStorage;
 import com.google.common.collect.Lists;
 
 public class CurrentUser {

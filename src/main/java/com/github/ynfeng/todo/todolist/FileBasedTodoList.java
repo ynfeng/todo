@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo.todolist;
 
-import com.github.ynfeng.todo.persistence.FileStorage;
+import com.github.ynfeng.todo.storage.FileStorage;
 import com.github.ynfeng.todo.user.CurrentUser;
 import java.util.Collections;
 import java.util.List;

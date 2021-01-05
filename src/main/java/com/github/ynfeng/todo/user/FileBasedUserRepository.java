@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo.user;
 
-import com.github.ynfeng.todo.persistence.FileStorage;
+import com.github.ynfeng.todo.storage.FileStorage;
 import java.util.Optional;
 
 public class FileBasedUserRepository implements UserRepository {
