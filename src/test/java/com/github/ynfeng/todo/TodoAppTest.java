@@ -6,12 +6,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.config.AppConfig;
-import com.github.ynfeng.todo.config.DBConfig;
-import com.github.ynfeng.todo.todolist.FileBasedTodoList;
-import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.User;
-import com.github.ynfeng.todo.user.UserRepository;
 import com.google.common.collect.Lists;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,7 +16,6 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,48 +30,20 @@ public class TodoAppTest {
     public void setup() {
         out = new ByteArrayOutputStream();
         Console.out(new PrintStream(out));
-        UUID testDir = UUID.randomUUID();
-        UserRepository userRepository = new UserRepository() {
-            private final List<User> users = Lists.newArrayList();
-
-            @Override
-            public Optional<User> findUser(String name) {
-                return users.stream()
-                    .filter(user -> user.name().equals(name))
-                    .findAny();
-            }
-
-            @Override
-            public void add(User user) {
-                users.add(user);
-            }
-        };
-
-        context = new ApplicationContext() {
-            private DBConfig dbConfig;
-
-            @Override
-            public TodoList todoList(String userName) {
-                return new FileBasedTodoList("/tmp/todo/" + testDir + '/');
-            }
-
-            @Override
-            public UserRepository userRepository() {
-                return userRepository;
-            }
-
-            @Override
-            public void dbConfig(DBConfig dbConfig) {
-                this.dbConfig = dbConfig;
-            }
-
-            @Override
-            public Optional<DBConfig> dbConfig() {
-                return Optional.ofNullable(dbConfig);
-            }
-        };
-        app = new TodoApp(context);
         Console.passwordReader(() -> "12345");
+        UUID testDir = UUID.randomUUID();
+        context = new DefaultApplicationContext(new AppConfig() {
+            @Override
+            public <T> T getConfigOrDefault(String key, T defaultValue) {
+                return defaultValue;
+            }
+
+            @Override
+            public String defaultDataDir() {
+                return "/tmp/todo/" + testDir + '/';
+            }
+        });
+        app = new TodoApp(context);
         context.userRepository().add(new User("test", "12345"));
     }
 
@@ -184,8 +151,8 @@ public class TodoAppTest {
 
     @Test
     public void should_support_multi_user() {
-        String user1 = UUID.randomUUID().toString();
-        String user2 = UUID.randomUUID().toString();
+        String user1 = UUID.randomUUID().randomUUID().toString();
+        String user2 = UUID.randomUUID().randomUUID().toString();
         context.userRepository().add(new User(user1, "12345"));
         context.userRepository().add(new User(user2, "12345"));
         app.run(Args.of("login", "-u", user1));
@@ -268,34 +235,6 @@ public class TodoAppTest {
 
         app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
         out.reset();
-        app.run(Args.of("dbconf", "-s"));
-        assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
-    }
-
-    @Test
-    public void should_persistence_db_config() {
-        ApplicationContext context = new DefaultApplicationContext(new AppConfig() {
-            @Override
-            public <T> T getConfigOrDefault(String key, T defaultValue) {
-                return null;
-            }
-
-            @Override
-            public String defaultDataDir() {
-                return "/tmp/todo/" + UUID.randomUUID() + '/';
-            }
-        });
-
-        app = new TodoApp(context);
-        app.run(Args.of("dbconf", "-s"));
-        assertThat(out.toString(), is("db config has not set!"));
-        out.reset();
-
-        app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
-        assertThat(out.toString(), is("db config has been set!"));
-        out.reset();
-
-        app = new TodoApp(context);
         app.run(Args.of("dbconf", "-s"));
         assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
     }
