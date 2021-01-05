@@ -5,6 +5,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import com.github.ynfeng.todo.config.AppConfig;
+import com.github.ynfeng.todo.db.DBConfig;
 import com.github.ynfeng.todo.todolist.FileBasedTodoList;
 import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.CurrentUser;
@@ -51,6 +53,8 @@ public class TodoAppTest {
         };
 
         context = new ApplicationContext() {
+            private DBConfig dbConfig;
+
             @Override
             public TodoList todoList(String userName) {
                 return new FileBasedTodoList("/tmp/todo/" + testDir + '/');
@@ -59,6 +63,16 @@ public class TodoAppTest {
             @Override
             public UserRepository userRepository() {
                 return userRepository;
+            }
+
+            @Override
+            public void dbConfig(DBConfig dbConfig) {
+                this.dbConfig = dbConfig;
+            }
+
+            @Override
+            public Optional<DBConfig> dbConfig() {
+                return Optional.ofNullable(dbConfig);
             }
         };
         app = new TodoApp(context);
@@ -237,6 +251,53 @@ public class TodoAppTest {
 
         app.run(Args.of("list"));
         assertThat(out.toString(), is("1. foo\n2. foo\n3. bar\n"));
+    }
+
+    @Test
+    public void should_set_database_config() {
+        app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
+
+        assertThat(out.toString(), is("db config has been set!"));
+    }
+
+    @Test
+    public void should_show_current_db_config() {
+        app.run(Args.of("dbconf", "-s"));
+        assertThat(out.toString(), is("db config has not set!"));
+        out.reset();
+
+        app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
+        out.reset();
+        app.run(Args.of("dbconf", "-s"));
+        assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
+    }
+
+    @Test
+    public void should_persistence_db_config() {
+        ApplicationContext context = new DefaultApplicationContext(new AppConfig() {
+            @Override
+            public <T> T getConfigOrDefault(String key, T defaultValue) {
+                return null;
+            }
+
+            @Override
+            public String defaultDataDir() {
+                return "/tmp/todo/" + UUID.randomUUID() + '/';
+            }
+        });
+
+        app = new TodoApp(context);
+        app.run(Args.of("dbconf", "-s"));
+        assertThat(out.toString(), is("db config has not set!"));
+        out.reset();
+
+        app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
+        assertThat(out.toString(), is("db config has been set!"));
+        out.reset();
+
+        app = new TodoApp(context);
+        app.run(Args.of("dbconf", "-s"));
+        assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
     }
 
     @AfterEach
