@@ -224,13 +224,13 @@ public class TodoAppTest {
     public void should_set_database_config() {
         app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
 
-        assertThat(out.toString(), is("db config has been set!"));
+        assertThat(out.toString(), is("database is configured!"));
     }
 
     @Test
     public void should_show_current_db_config() {
         app.run(Args.of("dbconf", "-s"));
-        assertThat(out.toString(), is("db config has not set!"));
+        assertThat(out.toString(), is("no database configured!"));
         out.reset();
 
         app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
@@ -238,6 +238,13 @@ public class TodoAppTest {
         app.run(Args.of("dbconf", "-s"));
         assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
     }
+
+//    @Test
+//    public void cant_init_database_with_out_db_config() {
+//        app.run(Args.of("dbconf","init"));
+//
+//        assertThat(out.toString(), is("no database configured!"));
+//    }
 
     @AfterEach
     public void tearDown() throws IOException {
