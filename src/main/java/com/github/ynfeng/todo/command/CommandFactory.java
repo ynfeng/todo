@@ -27,6 +27,8 @@ public final class CommandFactory {
                 return new ImportCommand();
             case "dbconf":
                 return new DBConfigCommand();
+            case "init":
+                return new InitCommand();
             default:
                 throw new TodoApplicationException("unsupported command.");
         }

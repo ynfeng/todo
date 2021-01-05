@@ -3,8 +3,12 @@ package com.github.ynfeng.todo;
 import com.github.ynfeng.todo.config.AppConfig;
 import com.github.ynfeng.todo.config.DBConfig;
 import com.github.ynfeng.todo.storage.FileStorage;
-import com.github.ynfeng.todo.todolist.FileBasedTodoList;
+import com.github.ynfeng.todo.storage.ItemDB;
+import com.github.ynfeng.todo.storage.Storage;
+import com.github.ynfeng.todo.todolist.DefaultTodoList;
+import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.todolist.TodoList;
+import com.github.ynfeng.todo.user.CurrentUser;
 import com.github.ynfeng.todo.user.FileBasedUserRepository;
 import com.github.ynfeng.todo.user.UserRepository;
 import java.util.Collections;
@@ -22,7 +26,26 @@ public class DefaultApplicationContext implements ApplicationContext {
 
     @Override
     public TodoList todoList(String userName) {
-        return new FileBasedTodoList(config.getConfigOrDefault("dataDir", config.defaultDataDir()));
+        Storage<Item> storage = createStorage();
+        return new DefaultTodoList(storage);
+    }
+
+    private Storage<Item> createStorage() {
+        if (dbConfig().isPresent() && dbConfig().get().isEnable()) {
+            return createDBStorage();
+        } else {
+            return createFileStorage();
+        }
+    }
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    private ItemDB createDBStorage() {
+        return ItemDB.create(CurrentUser.username(), dbConfig().get());
+    }
+
+    private Storage<Item> createFileStorage() {
+        String dataDir = config.getConfigOrDefault("dataDir", config.defaultDataDir()) + '/' + CurrentUser.username();
+        return new FileStorage<>(dataDir + "/data.json", Item.class);
     }
 
     @Override
@@ -42,5 +65,20 @@ public class DefaultApplicationContext implements ApplicationContext {
             return Optional.empty();
         }
         return Optional.of(configList.get(0));
+    }
+
+    @Override
+    public void enableDatabase() {
+        dbConfig().ifPresent(conf -> {
+            conf.enable();
+            exportFromFileToDatabase();
+            dbConfigStorate.updateAll(Collections.singletonList(conf));
+        });
+    }
+
+    private void exportFromFileToDatabase() {
+        Storage<Item> fileStorage = createFileStorage();
+        Storage<Item> dbStorage = createDBStorage();
+        dbStorage.appendAll(fileStorage.loadAll());
     }
 }

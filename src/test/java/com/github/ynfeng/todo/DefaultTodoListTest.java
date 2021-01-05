@@ -3,7 +3,8 @@ package com.github.ynfeng.todo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import com.github.ynfeng.todo.todolist.FileBasedTodoList;
+import com.github.ynfeng.todo.storage.FileStorage;
+import com.github.ynfeng.todo.todolist.DefaultTodoList;
 import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.todolist.TodoList;
 import java.util.Arrays;
@@ -12,22 +13,24 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class FileBasedTodoListTest {
+class DefaultTodoListTest {
     private String dataDir;
+    private FileStorage<Item> storage;
 
     @BeforeEach
     public void setup() {
         dataDir = "/tmp/todo/" + UUID.randomUUID() + '/';
+        storage = new FileStorage<Item>(dataDir, Item.class);
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_save_todo_item_to_file() {
-        TodoList todoList = new FileBasedTodoList(dataDir);
+        TodoList todoList = new DefaultTodoList(storage);
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new FileBasedTodoList(dataDir);
+        TodoList newTodoList = new DefaultTodoList(storage);
         newTodoList.add(Item.newItem("baz"));
         Item foo = newTodoList.get(0).get();
         Item bar = newTodoList.get(1).get();
@@ -40,11 +43,11 @@ class FileBasedTodoListTest {
 
     @Test
     public void should_list_all_todo_items() {
-        TodoList todoList = new FileBasedTodoList(dataDir);
+        TodoList todoList = new DefaultTodoList(storage);
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new FileBasedTodoList(dataDir);
+        TodoList newTodoList = new DefaultTodoList(storage);
         newTodoList.add(Item.newItem("baz"));
 
         List<Item> all = newTodoList.all();
@@ -54,11 +57,11 @@ class FileBasedTodoListTest {
 
     @Test
     public void should_list_unfinished_todo_items() {
-        TodoList todoList = new FileBasedTodoList(dataDir);
+        TodoList todoList = new DefaultTodoList(storage);
         todoList.add(Item.newItem("foo").done());
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new FileBasedTodoList(dataDir);
+        TodoList newTodoList = new DefaultTodoList(storage);
         newTodoList.add(Item.newItem("baz"));
 
         List<Item> all = newTodoList.unFinishedItems();
@@ -69,13 +72,13 @@ class FileBasedTodoListTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_update_todo_item() {
-        TodoList todoList = new FileBasedTodoList(dataDir);
+        TodoList todoList = new DefaultTodoList(storage);
         todoList.add(Item.newItem("foo"));
         Item foo = todoList.get(0).get();
         foo.done();
         todoList.update(foo);
 
-        TodoList newTodoList = new FileBasedTodoList(dataDir);
+        TodoList newTodoList = new DefaultTodoList(storage);
         newTodoList.add(Item.newItem("baz"));
         foo = newTodoList.get(0).get();
 
@@ -85,11 +88,11 @@ class FileBasedTodoListTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void item_name_can_contains_chinese() {
-        TodoList todoList = new FileBasedTodoList(dataDir);
+        TodoList todoList = new DefaultTodoList(storage);
         todoList.add(Item.newItem("中文测试"));
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
-        TodoList newTodoList = new FileBasedTodoList(dataDir);
+        TodoList newTodoList = new DefaultTodoList(storage);
         Item chineseItem = newTodoList.get(0).get();
 
         assertThat(chineseItem.name(), is("中文测试"));

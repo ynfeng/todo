@@ -239,12 +239,27 @@ public class TodoAppTest {
         assertThat(out.toString(), is("type: h2\nurl: jdbc:h2:/tmp/db\nuser: root\npassword: root\n"));
     }
 
-//    @Test
-//    public void cant_init_database_with_out_db_config() {
-//        app.run(Args.of("dbconf","init"));
-//
-//        assertThat(out.toString(), is("no database configured!"));
-//    }
+    @Test
+    public void cant_init_database_with_out_db_config() {
+        app.run(Args.of("init"));
+
+        assertThat(out.toString(), is("no database configured!"));
+    }
+
+    @Test
+    public void should_init_database() {
+        app.run(Args.of("add", "foo"));
+        app.run(Args.of("add", "bar"));
+        app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
+        out.reset();
+
+        app.run(Args.of("init"));
+        assertThat(out.toString(), is("database is initialized!"));
+        out.reset();
+
+        app.run(Args.of("list"));
+        assertThat(out.toString(), is("1. foo\n2. bar\n"));
+    }
 
     @AfterEach
     public void tearDown() throws IOException {

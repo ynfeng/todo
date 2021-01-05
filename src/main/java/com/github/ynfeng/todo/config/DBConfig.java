@@ -7,6 +7,7 @@ public class DBConfig {
     private final String url;
     private final String user;
     private final String password;
+    private boolean enable;
 
     public DBConfig(String type, String url, String user, String password) {
         this.type = type;
@@ -29,6 +30,14 @@ public class DBConfig {
 
     public String password() {
         return password;
+    }
+
+    public void enable() {
+        enable = true;
+    }
+
+    public boolean isEnable() {
+        return enable;
     }
 
     public void print() {

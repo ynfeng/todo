@@ -13,4 +13,6 @@ public interface ApplicationContext {
     void dbConfig(DBConfig dbConfig);
 
     Optional<DBConfig> dbConfig();
+
+    void enableDatabase();
 }

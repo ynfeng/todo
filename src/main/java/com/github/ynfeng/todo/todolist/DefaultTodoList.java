@@ -1,18 +1,17 @@
 package com.github.ynfeng.todo.todolist;
 
-import com.github.ynfeng.todo.storage.FileStorage;
-import com.github.ynfeng.todo.user.CurrentUser;
+import com.github.ynfeng.todo.storage.Storage;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class FileBasedTodoList implements TodoList {
+public class DefaultTodoList implements TodoList {
     private final List<Item> items;
-    private final FileStorage<Item> storage;
+    private final Storage<Item> storage;
 
-    public FileBasedTodoList(String dataDir) {
-        storage = new FileStorage<>(dataDir + '/' + CurrentUser.username() + "/data.json", Item.class);
+    public DefaultTodoList(Storage<Item> storage) {
+        this.storage = storage;
         items = storage.loadAll();
     }
 
