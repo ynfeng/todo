@@ -41,3 +41,18 @@ java -jar build/libs/todo-1.0-SNAPSHOT.jar logout
 java -jar build/libs/todo-1.0-SNAPSHOT.jar export -o /tmp/export
 java -jar build/libs/todo-1.0-SNAPSHOT.jar import -f /tmp/export
 ```
+
+# 第四阶段功能
+
+1. 当前登录用户查询
+2. 数据库配置(H2)
+3. 数据库初始化
+4. 数据库配置回显
+
+```
+java -jar build/libs/todo-1.0-SNAPSHOT.jar whomi
+java -jar build/libs/todo-1.0-SNAPSHOT.jar dbconf -t h2 -l jdbc:h2:/Users/mac/ynfengtodo -u root -p root
+java -jar build/libs/todo-1.0-SNAPSHOT.jar init 
+java -jar build/libs/todo-1.0-SNAPSHOT.jar dbconf -s
+```
+
