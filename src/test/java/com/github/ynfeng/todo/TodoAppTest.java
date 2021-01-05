@@ -191,7 +191,7 @@ public class TodoAppTest {
     @Test
     public void should_export_todo_list_to_file() throws IOException {
         String exportPath = "/tmp/todolist";
-        Files.delete(Paths.get(exportPath));
+        deleteFile(exportPath);
         app.run(Args.of("add", "foo"));
         app.run(Args.of("add", "bar"));
         app.run(Args.of("export", ">", exportPath));
@@ -205,7 +205,7 @@ public class TodoAppTest {
     @Test
     public void should_import_todo_list_from_file() throws IOException {
         String exportPath = "/tmp/todolist";
-        Files.delete(Paths.get(exportPath));
+        deleteFile(exportPath);
         Console.passwordReader(() -> "12345");
         app.run(Args.of("add", "foo"));
         app.run(Args.of("add", "bar"));
@@ -218,6 +218,13 @@ public class TodoAppTest {
 
         app.run(Args.of("list"));
         assertThat(out.toString(), is("1. foo\n2. foo\n3. bar\n"));
+    }
+
+    private void deleteFile(String exportPath) throws IOException {
+        try {
+            Files.delete(Paths.get(exportPath));
+        } catch (IOException ignored) {
+        }
     }
 
     @Test
@@ -247,7 +254,7 @@ public class TodoAppTest {
     }
 
     @Test
-    public void should_init_database() {
+    public void should_init_database() throws IOException {
         app.run(Args.of("add", "foo"));
         app.run(Args.of("add", "bar"));
         app.run(Args.of("dbconf", "-t", "h2", "-l", "jdbc:h2:/tmp/db", "-u", "root", "-p", "root"));
@@ -259,6 +266,23 @@ public class TodoAppTest {
 
         app.run(Args.of("list"));
         assertThat(out.toString(), is("1. foo\n2. bar\n"));
+
+        deleteFile("/tmp/db.h2.db");
+    }
+
+    @Test
+    public void should_query_current_user() {
+        app.run(Args.of("logout"));
+        out.reset();
+
+        app.run(Args.of("whomi"));
+        assertThat(out.toString(), is("anonymous\n"));
+
+        app.run(Args.of("adduser", "-u", "foo"));
+        app.run(Args.of("login", "-u", "foo"));
+        out.reset();
+        app.run(Args.of("whomi"));
+        assertThat(out.toString(), is("foo\n"));
     }
 
     @AfterEach

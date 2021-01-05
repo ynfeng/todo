@@ -33,7 +33,11 @@ public class Item {
         return String.format("%d. %s", index, name);
     }
 
-    enum Status {
+    public Status status() {
+        return status;
+    }
+
+    public enum Status {
         UnFinished, Done
     }
 

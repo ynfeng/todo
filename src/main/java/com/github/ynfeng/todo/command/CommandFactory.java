@@ -29,6 +29,8 @@ public final class CommandFactory {
                 return new DBConfigCommand();
             case "init":
                 return new InitCommand();
+            case "whomi":
+                return new WhomiCommand();
             default:
                 throw new TodoApplicationException("unsupported command.");
         }

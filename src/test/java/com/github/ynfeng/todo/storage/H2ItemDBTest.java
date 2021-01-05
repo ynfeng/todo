@@ -35,10 +35,11 @@ public class H2ItemDBTest {
     @Test
     public void should_insert_item() {
         Item item = Item.newItem("test's item1");
-        itemDb.append(item);
+        itemDb.append(item.done());
 
         List<Item> items = itemDb.loadAll();
         assertThat(items.get(0), is(Item.newItem("test's item1")));
+        assertThat(items.get(0).isDone(), is(true));
     }
 
     @Test
@@ -46,11 +47,12 @@ public class H2ItemDBTest {
         Item item = Item.newItem("test's item1");
         itemDb.append(item);
 
-        itemDb.updateAll(Lists.newArrayList(Item.newItem("1"), Item.newItem("2")));
+        itemDb.updateAll(Lists.newArrayList(Item.newItem("1").done(), Item.newItem("2")));
         List<Item> items = itemDb.loadAll();
         assertThat(items.size(), is(2));
         assertThat(items.get(0), is(Item.newItem("1")));
         assertThat(items.get(1), is(Item.newItem("2")));
+        assertThat(items.get(0).isDone(), is(true));
     }
 
     @Test

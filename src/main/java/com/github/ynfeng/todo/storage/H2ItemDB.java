@@ -26,8 +26,9 @@ public class H2ItemDB implements ItemDB {
     private void initTables() {
         doInTransaction(conn -> {
             try {
-                PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS ITEM(id int auto_increment, owner varchar(255) ,name varchar(255))");
+                PreparedStatement stmt = conn.prepareStatement("CREATE TABLE IF NOT EXISTS ITEM(id int auto_increment, owner varchar(255) ,name varchar(255), status varchar(10))");
                 stmt.execute();
+                stmt.close();
                 return null;
             } catch (SQLException e) {
                 throw new TodoApplicationException(e);
@@ -52,8 +53,14 @@ public class H2ItemDB implements ItemDB {
                 stmt.setString(1, owner);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
-                    result.add(Item.newItem(rs.getString("NAME")));
+                    Item item = Item.newItem(rs.getString("NAME"));
+                    if (Item.Status.Done.toString().equals(rs.getString("STATUS"))) {
+                        item.done();
+                    }
+                    result.add(item);
                 }
+                stmt.close();
+                rs.close();
             } catch (SQLException throwables) {
                 throw new TodoApplicationException(throwables);
             }
@@ -63,13 +70,15 @@ public class H2ItemDB implements ItemDB {
 
     @Override
     public void append(Item item) {
-        String sql = "INSERT INTO ITEM(OWNER,NAME) values(?,?)";
+        String sql = "INSERT INTO ITEM(OWNER,NAME,STATUS) values(?,?,?)";
         doInTransaction(connection -> {
             try {
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.setString(1, owner);
                 stmt.setString(2, item.name());
+                stmt.setString(3, item.status().toString());
                 stmt.execute();
+                stmt.close();
                 return null;
             } catch (SQLException throwables) {
                 throw new TodoApplicationException(throwables);
@@ -90,6 +99,7 @@ public class H2ItemDB implements ItemDB {
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.setString(1, owner);
                 stmt.execute();
+                stmt.close();
                 return null;
             } catch (SQLException throwables) {
                 throw new TodoApplicationException(throwables);
