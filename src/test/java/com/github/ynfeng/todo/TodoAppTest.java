@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.config.AppConfig;
-import com.github.ynfeng.todo.db.DBConfig;
+import com.github.ynfeng.todo.config.DBConfig;
 import com.github.ynfeng.todo.todolist.FileBasedTodoList;
 import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.CurrentUser;

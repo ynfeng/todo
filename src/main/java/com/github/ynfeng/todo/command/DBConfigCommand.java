@@ -4,7 +4,7 @@ import static com.github.ynfeng.todo.Console.print;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
-import com.github.ynfeng.todo.db.DBConfig;
+import com.github.ynfeng.todo.config.DBConfig;
 import java.util.Optional;
 
 public class DBConfigCommand implements Command {

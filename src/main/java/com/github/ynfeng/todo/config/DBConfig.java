@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo.db;
+package com.github.ynfeng.todo.config;
 
 import com.github.ynfeng.todo.Console;
 

@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo;
 
-import com.github.ynfeng.todo.db.DBConfig;
+import com.github.ynfeng.todo.config.DBConfig;
 import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.user.UserRepository;
 import java.util.Optional;
