@@ -17,11 +17,11 @@ import java.util.Optional;
 
 public class DefaultApplicationContext implements ApplicationContext {
     private final AppConfig config;
-    private final FileStorage<DBConfig> dbConfigStorate;
+    private final FileStorage<DBConfig> dbConfigStorage;
 
     public DefaultApplicationContext(AppConfig config) {
         this.config = config;
-        dbConfigStorate = new FileStorage<>(config.defaultDataDir() + "/.dbconf.json", DBConfig.class);
+        dbConfigStorage = new FileStorage<>(config.defaultDataDir() + "/.dbconf.json", DBConfig.class);
     }
 
     @Override
@@ -55,12 +55,12 @@ public class DefaultApplicationContext implements ApplicationContext {
 
     @Override
     public void dbConfig(DBConfig dbConfig) {
-        dbConfigStorate.updateAll(Collections.singletonList(dbConfig));
+        dbConfigStorage.updateAll(Collections.singletonList(dbConfig));
     }
 
     @Override
     public Optional<DBConfig> dbConfig() {
-        List<DBConfig> configList = dbConfigStorate.loadAll();
+        List<DBConfig> configList = dbConfigStorage.loadAll();
         if (configList.isEmpty()) {
             return Optional.empty();
         }
@@ -72,7 +72,7 @@ public class DefaultApplicationContext implements ApplicationContext {
         dbConfig().ifPresent(conf -> {
             conf.enable();
             exportFromFileToDatabase();
-            dbConfigStorate.updateAll(Collections.singletonList(conf));
+            dbConfigStorage.updateAll(Collections.singletonList(conf));
         });
     }
 
