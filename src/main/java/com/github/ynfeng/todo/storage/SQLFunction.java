@@ -1,4 +1,4 @@
-package com.github.ynfeng.todo;
+package com.github.ynfeng.todo.storage;
 
 import java.sql.SQLException;
 

@@ -1,6 +1,5 @@
 package com.github.ynfeng.todo.storage;
 
-import com.github.ynfeng.todo.SQLFunction;
 import com.github.ynfeng.todo.TodoApplicationException;
 import com.github.ynfeng.todo.config.DBConfig;
 import com.google.common.collect.Lists;
