@@ -25,7 +25,7 @@ public final class CommandFactory {
 
     }
 
-    public static Command createCommand(String cmd) {
+    public static Command getCommand(String cmd) {
         Command command = SUPPORT_COMMANDS.get(cmd);
         if (command == null) {
             throw new TodoApplicationException("unsupported command.");
