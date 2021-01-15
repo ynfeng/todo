@@ -17,12 +17,14 @@ public class CurrentUser {
     }
 
     public static LoggedUser get() {
-        if (INSTANCE.user == null) {
-            if (!STORAGE.loadAll().isEmpty()) {
-                INSTANCE.user = STORAGE.loadAll().get(0);
-            }
-        }
+        tryLoadUser();
         return INSTANCE.user;
+    }
+
+    private static void tryLoadUser() {
+        if (INSTANCE.user == null && !STORAGE.loadAll().isEmpty()) {
+            INSTANCE.user = STORAGE.loadAll().get(0);
+        }
     }
 
     public static String username() {
