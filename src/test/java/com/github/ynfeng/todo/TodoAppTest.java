@@ -48,7 +48,7 @@ public class TodoAppTest {
     }
 
     @Test
-    public void should_add_item_and_output_tips() {
+    public void should_add_item_and_output_promot() {
         app.run(Args.of("add", "foo"));
         assertThat(out.toString(), is("1. foo\nItem foo added\n"));
 
@@ -59,7 +59,7 @@ public class TodoAppTest {
     }
 
     @Test
-    public void should_mark_todo_item_done_and_output_tips() {
+    public void should_mark_todo_item_done_and_output_promot() {
         app.run(Args.of("add", "foo"));
 
         out.reset();
