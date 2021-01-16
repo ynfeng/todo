@@ -20,21 +20,21 @@ class MainTest {
     }
 
     @Test
-    public void should_output_promot_when_not_given_command() {
+    public void should_output_prompt_when_not_given_command() {
         Main.main(new String[] {null});
 
         assertThat(out.toString(), is("command not found.\n"));
     }
 
     @Test
-    public void should_output_promot_when_given_unsupported_command() {
+    public void should_output_prompt_when_given_unsupported_command() {
         Main.main(new String[] {"unsupported"});
 
         assertThat(out.toString(), is("unsupported command.\n"));
     }
 
     @Test
-    public void should_output_promot_when_not_given_args() {
+    public void should_output_prompt_when_not_given_args() {
         Main.main(new String[] {});
 
         assertThat(out.toString(), is("command not found.\n"));
@@ -46,7 +46,7 @@ class MainTest {
     }
 
     @Test
-    public void should_output_promot_when_argument_incorrect() {
+    public void should_output_prompt_when_argument_incorrect() {
         Main.main(new String[] {"adduser", "test"});
         assertThat(out.toString(), is("Usage: adduser -u <username>\n"));
     }
