@@ -21,7 +21,7 @@ public class Args {
     }
 
     private boolean hasCommand() {
-        return args == null || args.length == 0 || args[0] == null;
+        return !(args == null || args.length == 0 || args[0] == null);
     }
 
     public String getByIndex(int index, String message) {
