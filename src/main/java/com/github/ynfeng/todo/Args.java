@@ -24,7 +24,7 @@ public class Args {
         return !(args == null || args.length == 0 || args[0] == null);
     }
 
-    public String getByIndex(int index, String message) {
+    public String getByIndexOrThrowException(int index, String message) {
         try {
             return args[index];
         } catch (ArrayIndexOutOfBoundsException e) {

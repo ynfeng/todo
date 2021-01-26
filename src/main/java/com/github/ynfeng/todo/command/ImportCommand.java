@@ -9,7 +9,7 @@ import com.github.ynfeng.todo.user.CurrentUser;
 public class ImportCommand implements Command {
     @Override
     public void execute(ApplicationContext context, Args args) {
-        String importPath = args.getByIndex(2, "Usage: import -f <file path>");
+        String importPath = args.getByIndexOrThrowException(2, "Usage: import -f <file path>");
         FileStorage<Item> importFile = new FileStorage<>(importPath, Item.class);
         context.todoList(CurrentUser.username()).addAll(importFile.loadAll());
     }

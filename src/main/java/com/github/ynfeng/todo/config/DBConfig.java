@@ -1,7 +1,5 @@
 package com.github.ynfeng.todo.config;
 
-import com.github.ynfeng.todo.Console;
-
 public class DBConfig {
     private final String type;
     private final String url;
@@ -40,10 +38,4 @@ public class DBConfig {
         return enable;
     }
 
-    public void print() {
-        Console.println("type: %s", type());
-        Console.println("url: %s", url());
-        Console.println("user: %s", user());
-        Console.println("password: %s", password());
-    }
 }

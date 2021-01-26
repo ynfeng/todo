@@ -11,7 +11,7 @@ public class MarkItemDoneCommand implements Command {
     @Override
     public void execute(ApplicationContext context, Args args) {
         TodoList todoList = context.todoList(CurrentUser.username());
-        int itemIdx = Integer.parseInt(args.getByIndex(1, "Usage: done <item index>"));
+        int itemIdx = Integer.parseInt(args.getByIndexOrThrowException(1, "Usage: done <item index>"));
         todoList.itemDone(itemIdx);
         println("Item %d done", itemIdx);
     }

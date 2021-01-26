@@ -15,8 +15,8 @@ public class ListItemsCommand implements Command {
         if (args.has("--all")) {
             printItems(todoList.all());
             printSummary(todoList.all());
-        } else {
-            printItems(todoList.unFinishedItems());
+            return;
         }
+        printItems(todoList.unFinishedItems());
     }
 }

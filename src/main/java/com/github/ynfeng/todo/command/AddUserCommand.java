@@ -1,6 +1,6 @@
 package com.github.ynfeng.todo.command;
 
-import static com.github.ynfeng.todo.Console.print;
+import static com.github.ynfeng.todo.Console.printDBConfig;
 import static com.github.ynfeng.todo.Console.println;
 import static com.github.ynfeng.todo.Console.readPassword;
 
@@ -12,7 +12,7 @@ public class AddUserCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
-        String username = args.getByIndex(2, "Usage: adduser -u <username>");
+        String username = args.getByIndexOrThrowException(2, "Usage: adduser -u <username>");
         if (userExists(context, username)) {
             println("user already exists.");
             return;
@@ -22,7 +22,7 @@ public class AddUserCommand implements Command {
     }
 
     private void addUser(ApplicationContext context, String username) {
-        print("Password:");
+        printDBConfig("Password:");
         String password = readPassword();
         User user = new User(username, password);
         context.userRepository().add(user);

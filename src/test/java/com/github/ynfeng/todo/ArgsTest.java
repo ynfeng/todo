@@ -26,7 +26,7 @@ class ArgsTest {
     public void cant_get_not_exist_argument() {
         try {
             Args args = Args.of("add");
-            args.getByIndex(1, "Missing argument");
+            args.getByIndexOrThrowException(1, "Missing argument");
             fail();
         } catch (Exception exception) {
             assertThat(exception, instanceOf(TodoApplicationException.class));

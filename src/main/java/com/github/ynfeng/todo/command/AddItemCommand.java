@@ -14,7 +14,8 @@ public class AddItemCommand implements Command {
     @Override
     public void execute(ApplicationContext context, Args args) {
         TodoList todoList = context.todoList(CurrentUser.username());
-        Item item = Item.newItem(args.getByIndex(1, "Usage: add <item name>"));
+        String itemName = args.getByIndexOrThrowException(1, "Usage: add <item name>");
+        Item item = Item.newItem(itemName);
         todoList.add(item);
         printItems(todoList.unFinishedItems());
         println("Item %s added", item.name());

@@ -1,25 +1,22 @@
 package com.github.ynfeng.todo.command;
 
 import com.github.ynfeng.todo.TodoApplicationException;
-import com.google.common.collect.Maps;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
 public final class CommandFactory {
-    private static final Map<String, Command> SUPPORTED_COMMANDS = Maps.newHashMap();
-
-    static {
-        SUPPORTED_COMMANDS.put("add", new AddItemCommand());
-        SUPPORTED_COMMANDS.put("list", new ListItemsCommand());
-        SUPPORTED_COMMANDS.put("done", new MarkItemDoneCommand());
-        SUPPORTED_COMMANDS.put("login", new LoginCommand());
-        SUPPORTED_COMMANDS.put("logout", new LogoutCommand());
-        SUPPORTED_COMMANDS.put("adduser", new AddUserCommand());
-        SUPPORTED_COMMANDS.put("export", new ExportCommand());
-        SUPPORTED_COMMANDS.put("import", new ImportCommand());
-        SUPPORTED_COMMANDS.put("dbconf", new DBConfigCommand());
-        SUPPORTED_COMMANDS.put("init", new InitCommand());
-        SUPPORTED_COMMANDS.put("whomi", new WhomiCommand());
-    }
+    private static final ImmutableMap<String, Command> SUPPORTED_COMMANDS = ImmutableMap.<String, Command>builder()
+        .put("add", new AddItemCommand())
+        .put("list", new ListItemsCommand())
+        .put("done", new MarkItemDoneCommand())
+        .put("login", new LoginCommand())
+        .put("logout", new LogoutCommand())
+        .put("adduser", new AddUserCommand())
+        .put("export", new ExportCommand())
+        .put("import", new ImportCommand())
+        .put("dbconf", new DBConfigCommand())
+        .put("init", new InitCommand())
+        .put("whomi", new WhomiCommand())
+        .build();
 
     private CommandFactory() {
 

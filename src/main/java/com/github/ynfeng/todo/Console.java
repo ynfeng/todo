@@ -1,5 +1,6 @@
 package com.github.ynfeng.todo;
 
+import com.github.ynfeng.todo.config.DBConfig;
 import com.github.ynfeng.todo.todolist.Item;
 import java.io.PrintStream;
 import java.util.List;
@@ -37,11 +38,18 @@ public final class Console {
         println("Total %d items, %d item done", total, numOfFinished);
     }
 
-    public static void print(String patten, Object... args) {
+    public static void printDBConfig(String patten, Object... args) {
         ps.printf(patten, args);
     }
 
     public static String readPassword() {
         return passwordReader.get();
+    }
+
+    public static void printDBConfig(DBConfig dbConfig) {
+        println("type: %s", dbConfig.type());
+        println("url: %s", dbConfig.url());
+        println("user: %s", dbConfig.user());
+        println("password: %s", dbConfig.password());
     }
 }

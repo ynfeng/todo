@@ -11,7 +11,7 @@ public class ExportCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
-        String exportPath = args.getByIndex(2, "Usage: export -o <file path>");
+        String exportPath = args.getByIndexOrThrowException(2, "Usage: export -o <file path>");
         List<Item> todoList = context.todoList(CurrentUser.username()).all();
         FileStorage<Item> exportFile = new FileStorage<>(exportPath, Item.class);
         exportFile.appendAll(todoList);
