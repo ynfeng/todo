@@ -4,16 +4,15 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.github.ynfeng.todo.storage.FileStorage;
-import com.github.ynfeng.todo.todolist.DefaultTodoList;
-import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.todolist.TodoList;
+import com.github.ynfeng.todo.todolist.Item;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class DefaultTodoListTest {
+class TodoListTest {
     private String dataDir;
     private FileStorage<Item> storage;
 
@@ -26,11 +25,11 @@ class DefaultTodoListTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_save_todo_item_to_file() {
-        TodoList todoList = new DefaultTodoList(storage);
+        TodoList todoList = new TodoList(storage);
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new DefaultTodoList(storage);
+        TodoList newTodoList = new TodoList(storage);
         newTodoList.add(Item.newItem("baz"));
         Item foo = newTodoList.get(0).get();
         Item bar = newTodoList.get(1).get();
@@ -43,11 +42,11 @@ class DefaultTodoListTest {
 
     @Test
     public void should_list_all_todo_items() {
-        TodoList todoList = new DefaultTodoList(storage);
+        TodoList todoList = new TodoList(storage);
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new DefaultTodoList(storage);
+        TodoList newTodoList = new TodoList(storage);
         newTodoList.add(Item.newItem("baz"));
 
         List<Item> all = newTodoList.all();
@@ -57,11 +56,11 @@ class DefaultTodoListTest {
 
     @Test
     public void should_list_unfinished_todo_items() {
-        TodoList todoList = new DefaultTodoList(storage);
+        TodoList todoList = new TodoList(storage);
         todoList.add(Item.newItem("foo").done());
         todoList.add(Item.newItem("bar"));
 
-        TodoList newTodoList = new DefaultTodoList(storage);
+        TodoList newTodoList = new TodoList(storage);
         newTodoList.add(Item.newItem("baz"));
 
         List<Item> all = newTodoList.unFinishedItems();
@@ -72,13 +71,13 @@ class DefaultTodoListTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void should_update_todo_item() {
-        TodoList todoList = new DefaultTodoList(storage);
+        TodoList todoList = new TodoList(storage);
         todoList.add(Item.newItem("foo"));
         Item foo = todoList.get(0).get();
         foo.done();
         todoList.update(foo);
 
-        TodoList newTodoList = new DefaultTodoList(storage);
+        TodoList newTodoList = new TodoList(storage);
         newTodoList.add(Item.newItem("baz"));
         foo = newTodoList.get(0).get();
 
@@ -88,11 +87,11 @@ class DefaultTodoListTest {
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void item_name_can_contains_chinese() {
-        TodoList todoList = new DefaultTodoList(storage);
+        TodoList todoList = new TodoList(storage);
         todoList.add(Item.newItem("中文测试"));
         todoList.add(Item.newItem("foo"));
         todoList.add(Item.newItem("bar"));
-        TodoList newTodoList = new DefaultTodoList(storage);
+        TodoList newTodoList = new TodoList(storage);
         Item chineseItem = newTodoList.get(0).get();
 
         assertThat(chineseItem.name(), is("中文测试"));

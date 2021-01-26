@@ -7,7 +7,6 @@ import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.todolist.TodoListService;
-import com.github.ynfeng.todo.user.CurrentUser;
 
 public class ListItemsCommand implements Command {
     @Override

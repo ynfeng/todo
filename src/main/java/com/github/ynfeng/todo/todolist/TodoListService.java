@@ -34,7 +34,7 @@ public class TodoListService {
 
     public TodoList getTodoList() {
         Storage<Item> storage = createStorage();
-        return new DefaultTodoList(storage);
+        return new TodoList(storage);
     }
 
     public void exportTo(String exportFilePath) {
@@ -49,7 +49,7 @@ public class TodoListService {
     }
 
     public void enableDatabase() throws NoDatabaseConfiguredException {
-        Optional<DBConfig> dbConfigOptional = dbConfig();
+        Optional<DBConfig> dbConfigOptional = getDBConfig();
         if (!dbConfigOptional.isPresent()) {
             throw new NoDatabaseConfiguredException();
         }
@@ -62,12 +62,12 @@ public class TodoListService {
 
     private void exportFromFileToDatabase() {
         Storage<Item> fileStorage = createFileStorage();
-        Storage<Item> dbStorage = createDBStorage(dbConfig().get());
+        Storage<Item> dbStorage = createDBStorage(getDBConfig().get());
         dbStorage.appendAll(fileStorage.loadAll());
     }
 
     private Storage<Item> createStorage() {
-        Optional<DBConfig> dbConfig =  dbConfig();
+        Optional<DBConfig> dbConfig =  getDBConfig();
         if (dbConfig.isPresent() && dbConfig.get().isEnable()) {
             return createDBStorage(dbConfig.get());
         } else {
@@ -89,7 +89,7 @@ public class TodoListService {
         dbConfigStorage.updateAll(Collections.singletonList(dbConfig));
     }
 
-    public Optional<DBConfig> dbConfig() {
+    public Optional<DBConfig> getDBConfig() {
         List<DBConfig> configList = dbConfigStorage.loadAll();
         if (configList.isEmpty()) {
             return Optional.empty();

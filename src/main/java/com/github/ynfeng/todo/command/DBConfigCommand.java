@@ -19,7 +19,7 @@ public class DBConfigCommand implements Command {
 
     private static void printDBConfig(ApplicationContext context) {
         TodoListService todoListService = new TodoListService(context);
-        Optional<DBConfig> configOptional = todoListService.dbConfig();
+        Optional<DBConfig> configOptional = todoListService.getDBConfig();
         if (!configOptional.isPresent()) {
             Console.print("no database configured!");
             return;
