@@ -2,9 +2,10 @@ package com.github.ynfeng.todo.command;
 
 import com.github.ynfeng.todo.TodoApplicationException;
 import com.google.common.collect.ImmutableMap;
+import java.util.Map;
 
 public final class CommandFactory {
-    private static final ImmutableMap<String, Command> SUPPORTED_COMMANDS = ImmutableMap.<String, Command>builder()
+    private static final Map<String, Command> SUPPORTED_COMMANDS = ImmutableMap.<String, Command>builder()
         .put("add", new AddItemCommand())
         .put("list", new ListItemsCommand())
         .put("done", new MarkItemDoneCommand())
