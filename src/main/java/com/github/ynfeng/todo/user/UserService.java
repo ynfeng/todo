@@ -3,10 +3,10 @@ package com.github.ynfeng.todo.user;
 import com.github.ynfeng.todo.ApplicationContext;
 
 public class UserService {
-    private final ApplicationContext context;
+    private final FileBasedUserRepository userRepository;
 
     public UserService(ApplicationContext context) {
-        this.context = context;
+        userRepository = new FileBasedUserRepository(context.appConfig().defaultDataDir());
     }
 
     public void addUser(String username, String password) throws UserAlreadyExistsException {
@@ -14,10 +14,10 @@ public class UserService {
             throw new UserAlreadyExistsException();
         }
         User user = new User(username, password);
-        context.userRepository().add(user);
+        userRepository.add(user);
     }
 
     private boolean userExists(String username) {
-        return context.userRepository().findUser(username).isPresent();
+        return userRepository.findUser(username).isPresent();
     }
 }

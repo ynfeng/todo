@@ -15,8 +15,8 @@ public class AddUserCommand implements Command {
     public void execute(ApplicationContext context, Args args) {
         UserService userService = new UserService(context);
         String username = args.getByIndexOrThrowException(2, "Usage: adduser -u <username>");
+        String password = readInputPassword();
         try {
-            String password = readInputPassword();
             userService.addUser(username, password);
         } catch (UserAlreadyExistsException e) {
             println("user already exists.");

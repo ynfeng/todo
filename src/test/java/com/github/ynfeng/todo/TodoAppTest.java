@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import com.github.ynfeng.todo.config.AppConfig;
 import com.github.ynfeng.todo.user.CurrentUser;
+import com.github.ynfeng.todo.user.FileBasedUserRepository;
 import com.github.ynfeng.todo.user.User;
 import com.google.common.collect.Lists;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test;
 public class TodoAppTest {
     private TodoApp app;
     private ByteArrayOutputStream out;
-    private ApplicationContext context;
+    private FileBasedUserRepository userRepository;
 
     @BeforeEach
     public void setup() {
@@ -31,19 +32,16 @@ public class TodoAppTest {
         Console.out(new PrintStream(out));
         Console.passwordReader(() -> "12345");
         UUID testDir = UUID.randomUUID();
-        context = new DefaultApplicationContext(new AppConfig() {
-            @Override
-            public <T> T getConfigOrDefault(String key, T defaultValue) {
-                return defaultValue;
-            }
-
+        ApplicationContext context = new DefaultApplicationContext(new AppConfig() {
             @Override
             public String defaultDataDir() {
                 return "/tmp/todo/" + testDir + '/';
             }
         });
         app = new TodoApp(context);
-        context.userRepository().add(new User("test", "12345"));
+
+        userRepository = new FileBasedUserRepository(context.appConfig().defaultDataDir());
+        userRepository.add(new User("test", "12345"));
     }
 
     @Test
@@ -150,10 +148,10 @@ public class TodoAppTest {
 
     @Test
     public void should_support_multi_user() {
-        String user1 = UUID.randomUUID().randomUUID().toString();
-        String user2 = UUID.randomUUID().randomUUID().toString();
-        context.userRepository().add(new User(user1, "12345"));
-        context.userRepository().add(new User(user2, "12345"));
+        String user1 = UUID.randomUUID().toString();
+        String user2 = UUID.randomUUID().toString();
+        userRepository.add(new User(user1, "12345"));
+        userRepository.add(new User(user2, "12345"));
         app.run(Args.of("login", "-u", user1));
         app.run(Args.of("add", "user1-foo"));
         out.reset();
@@ -219,7 +217,7 @@ public class TodoAppTest {
         assertThat(out.toString(), is("1. foo\n2. foo\n3. bar\n"));
     }
 
-    private void deleteFile(String exportPath) throws IOException {
+    private void deleteFile(String exportPath) {
         try {
             Files.delete(Paths.get(exportPath));
         } catch (IOException ignored) {
