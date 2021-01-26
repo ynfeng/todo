@@ -53,11 +53,14 @@ public class TodoListService {
         if (!dbConfigOptional.isPresent()) {
             throw new NoDatabaseConfiguredException();
         }
-        dbConfigOptional.ifPresent(config -> {
-            config.enable();
-            exportFromFileToDatabase();
-            dbConfigStorage.updateAll(Collections.singletonList(config));
-        });
+        DBConfig dbConfig = dbConfigOptional.get();
+        dbConfig.enable();
+        saveDBConfig(dbConfig);
+        exportFromFileToDatabase();
+    }
+
+    private void saveDBConfig(DBConfig dbConfig) {
+        dbConfigStorage.updateAll(Collections.singletonList(dbConfig));
     }
 
     private void exportFromFileToDatabase() {
