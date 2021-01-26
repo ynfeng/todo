@@ -184,7 +184,7 @@ public class TodoAppTest {
     public void username_cant_duplicate() {
         Console.passwordReader(() -> "123456");
         app.run(Args.of("adduser", "-u", "test"));
-        assertThat(out.toString(), is("user already exists.\n"));
+        assertThat(out.toString(), is("Password:user already exists.\n"));
     }
 
     @Test

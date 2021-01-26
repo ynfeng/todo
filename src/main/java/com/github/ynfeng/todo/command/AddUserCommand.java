@@ -6,29 +6,27 @@ import static com.github.ynfeng.todo.Console.readPassword;
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
 import com.github.ynfeng.todo.Console;
-import com.github.ynfeng.todo.user.User;
+import com.github.ynfeng.todo.user.UserAlreadyExistsException;
+import com.github.ynfeng.todo.user.UserService;
 
 public class AddUserCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
+        UserService userService = new UserService(context);
         String username = args.getByIndexOrThrowException(2, "Usage: adduser -u <username>");
-        if (userExists(context, username)) {
+        try {
+            String password = readInputPassword();
+            userService.addUser(username, password);
+        } catch (UserAlreadyExistsException e) {
             println("user already exists.");
             return;
         }
-        addUser(context, username);
         println("user added.");
     }
 
-    private void addUser(ApplicationContext context, String username) {
+    private static String readInputPassword() {
         Console.print("Password:");
-        String password = readPassword();
-        User user = new User(username, password);
-        context.userRepository().add(user);
-    }
-
-    private boolean userExists(ApplicationContext context, String username) {
-        return context.userRepository().findUser(username).isPresent();
+        return readPassword();
     }
 }

@@ -5,19 +5,17 @@ import static com.github.ynfeng.todo.Console.println;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
-import com.github.ynfeng.todo.todolist.Item;
 import com.github.ynfeng.todo.todolist.TodoList;
-import com.github.ynfeng.todo.user.CurrentUser;
+import com.github.ynfeng.todo.todolist.TodoListService;
 
 public class AddItemCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
-        TodoList todoList = context.todoList(CurrentUser.username());
+        TodoListService todoListService = new TodoListService(context);
         String itemName = args.getByIndexOrThrowException(1, "Usage: add <item name>");
-        Item item = Item.newItem(itemName);
-        todoList.add(item);
+        TodoList todoList = todoListService.addItem(itemName);
         printItems(todoList.unFinishedItems());
-        println("Item %s added", item.name());
+        println("Item %s added", itemName);
     }
 }
