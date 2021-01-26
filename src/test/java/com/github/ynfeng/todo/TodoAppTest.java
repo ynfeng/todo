@@ -108,7 +108,7 @@ public class TodoAppTest {
         app.run(Args.of("login", "-u", "test"));
 
         assertThat(out.toString(), is("Password:\nLogin success!\n"));
-        assertThat(CurrentUser.get().username(), is("test"));
+        assertThat(CurrentUser.username(), is("test"));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class TodoAppTest {
         app.run(Args.of("login", "-u", "test"));
 
         assertThat(out.toString(), is("Password:\nLogin failed!\n"));
-        assertThat(CurrentUser.get(), nullValue());
+        assertThat(CurrentUser.loggedUser().isPresent(), is(false));
     }
 
     @Test
@@ -136,7 +136,7 @@ public class TodoAppTest {
         app.run(Args.of("logout"));
 
         assertThat(out.toString(), is("Logout success!\n"));
-        assertThat(CurrentUser.get(), nullValue());
+        assertThat(CurrentUser.loggedUser().isPresent(), is(false));
     }
 
     @Test

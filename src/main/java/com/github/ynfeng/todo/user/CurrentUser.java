@@ -2,6 +2,7 @@ package com.github.ynfeng.todo.user;
 
 import com.github.ynfeng.todo.storage.FileStorage;
 import com.google.common.collect.Lists;
+import java.util.Optional;
 
 public class CurrentUser {
     private LoggedUser user;
@@ -16,9 +17,9 @@ public class CurrentUser {
         INSTANCE.user = user;
     }
 
-    public static LoggedUser get() {
+    public static Optional<LoggedUser> loggedUser() {
         tryLoadUser();
-        return INSTANCE.user;
+        return Optional.ofNullable(INSTANCE.user);
     }
 
     private static void tryLoadUser() {
@@ -28,10 +29,10 @@ public class CurrentUser {
     }
 
     public static String username() {
-        if (get() == null) {
+        if (!loggedUser().isPresent()) {
             return "anonymous";
         }
-        return get().username();
+        return loggedUser().get().username();
     }
 
     public static void remove() {
