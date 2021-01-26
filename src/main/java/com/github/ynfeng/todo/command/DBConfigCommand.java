@@ -20,7 +20,7 @@ public class DBConfigCommand implements Command {
     private static void printDBConfig(ApplicationContext context) {
         Optional<DBConfig> configOptional = context.dbConfig();
         if (!configOptional.isPresent()) {
-            Console.printDBConfig("no database configured!");
+            Console.print("no database configured!");
             return;
         }
         Console.printDBConfig(configOptional.get());
@@ -34,6 +34,6 @@ public class DBConfigCommand implements Command {
         String password = args.getByIndexOrThrowException(8, usage);
         DBConfig dbConfig = new DBConfig(type, url, user, password);
         context.dbConfig(dbConfig);
-        Console.printDBConfig("database is configured!");
+        Console.print("database is configured!");
     }
 }

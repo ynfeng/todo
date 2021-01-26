@@ -38,7 +38,7 @@ public final class Console {
         println("Total %d items, %d item done", total, numOfFinished);
     }
 
-    public static void printDBConfig(String patten, Object... args) {
+    public static void print(String patten, Object... args) {
         ps.printf(patten, args);
     }
 

@@ -1,7 +1,6 @@
 package com.github.ynfeng.todo.command;
 
 
-import static com.github.ynfeng.todo.Console.printDBConfig;
 import static com.github.ynfeng.todo.Console.println;
 
 import com.github.ynfeng.todo.ApplicationContext;
@@ -17,7 +16,7 @@ public class LoginCommand implements Command {
     @Override
     public void execute(ApplicationContext context, Args args) {
         checkArguments(args);
-        printDBConfig("Password:");
+        Console.print("Password:");
         String username = args.getByIndexOrThrowException(2, "Usage: login -u <username>");
         String password = Console.readPassword();
         User user = findUserOrThrowException(username, context);

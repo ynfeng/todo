@@ -1,11 +1,11 @@
 package com.github.ynfeng.todo.command;
 
-import static com.github.ynfeng.todo.Console.printDBConfig;
 import static com.github.ynfeng.todo.Console.println;
 import static com.github.ynfeng.todo.Console.readPassword;
 
 import com.github.ynfeng.todo.ApplicationContext;
 import com.github.ynfeng.todo.Args;
+import com.github.ynfeng.todo.Console;
 import com.github.ynfeng.todo.user.User;
 
 public class AddUserCommand implements Command {
@@ -22,7 +22,7 @@ public class AddUserCommand implements Command {
     }
 
     private void addUser(ApplicationContext context, String username) {
-        printDBConfig("Password:");
+        Console.print("Password:");
         String password = readPassword();
         User user = new User(username, password);
         context.userRepository().add(user);
