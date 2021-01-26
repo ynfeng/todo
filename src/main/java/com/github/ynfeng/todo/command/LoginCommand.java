@@ -13,16 +13,21 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute(ApplicationContext context, Args args) {
-        LoginService loginService = new LoginService(context);
         checkArguments(args);
+        LoginService loginService = new LoginService(context);
         String username = args.getByIndexOrThrowException(2, "Usage: login -u <username>");
-        Console.print("Password:");
-        String password = Console.readPassword();
+        String password = readPassword();
         if (loginService.login(username, password)) {
             println("\nLogin success!");
             return;
         }
         println("\nLogin failed!");
+    }
+
+    private String readPassword() {
+        Console.print("Password:");
+        String password = Console.readPassword();
+        return password;
     }
 
     private static void checkArguments(Args args) {
