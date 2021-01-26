@@ -18,7 +18,7 @@ public class LoginCommand implements Command {
         Console.print("Password:");
         String username = args.getByIndexOrThrowException(2, "Usage: login -u <username>");
         String password = Console.readPassword();
-        if(loginService.login(username, password)){
+        if (loginService.login(username, password)) {
             println("\nLogin success!");
             return;
         }

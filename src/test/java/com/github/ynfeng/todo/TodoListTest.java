@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.github.ynfeng.todo.storage.FileStorage;
-import com.github.ynfeng.todo.todolist.TodoList;
 import com.github.ynfeng.todo.todolist.Item;
+import com.github.ynfeng.todo.todolist.TodoList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
