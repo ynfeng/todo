@@ -70,9 +70,8 @@ public class TodoListService {
         Optional<DBConfig> dbConfig = getDBConfig();
         if (dbConfig.isPresent() && dbConfig.get().isEnable()) {
             return createDBStorage(dbConfig.get());
-        } else {
-            return createFileStorage();
         }
+        return createFileStorage();
     }
 
     private ItemDB createDBStorage(DBConfig dbConfig) {
