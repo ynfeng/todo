@@ -26,8 +26,7 @@ public class LoginCommand implements Command {
 
     private String readPassword() {
         Console.print("Password:");
-        String password = Console.readPassword();
-        return password;
+        return Console.readPassword();
     }
 
     private static void checkArguments(Args args) {
