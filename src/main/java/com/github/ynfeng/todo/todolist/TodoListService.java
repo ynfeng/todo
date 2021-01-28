@@ -77,7 +77,7 @@ public class TodoListService {
         return createFileStorage();
     }
 
-    private ItemDB createDBStorage(DBConfig dbConfig) {
+    private static ItemDB createDBStorage(DBConfig dbConfig) {
         return ItemDB.create(CurrentUser.username(), dbConfig);
     }
 
