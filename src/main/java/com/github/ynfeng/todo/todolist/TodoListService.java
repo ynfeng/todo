@@ -20,11 +20,10 @@ public class TodoListService {
         dbConfigStorage = new FileStorage<>(context.appConfig().defaultDataDir() + "/.dbconf.json", DBConfig.class);
     }
 
-    public TodoList addItem(String itemName) {
+    public void addItem(String itemName) {
         TodoList todoList = getTodoList();
         Item item = Item.newItem(itemName);
         todoList.add(item);
-        return todoList;
     }
 
     public void itemDone(int itemIdx) {
@@ -32,7 +31,7 @@ public class TodoListService {
         todoList.itemDone(itemIdx);
     }
 
-    public TodoList getTodoList() {
+    private TodoList getTodoList() {
         Storage<Item> storage = createStorage();
         return new TodoList(storage);
     }
@@ -97,5 +96,13 @@ public class TodoListService {
             return Optional.empty();
         }
         return Optional.of(configList.get(0));
+    }
+
+    public List<Item> unFinishedItems() {
+        return getTodoList().unFinishedItems();
+    }
+
+    public List<Item> listAll() {
+        return getTodoList().all();
     }
 }
